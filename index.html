@@ -47,7 +47,7 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
 </head><body>
 <section id="login" class="loginScreen">
   <div class="loginBrand">
-    <div class="brandMark"><span>F</span></div>
+    <div class="brandMark" aria-label="Extincteur">🧯</div>
     <div class="brandName">FIRETRACK</div>
     <div class="brandRule"></div>
     <p class="brandEyebrow">SÉCURITÉ INCENDIE</p>
@@ -57,7 +57,7 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
   </div>
   <div class="loginPanel">
     <div class="loginPanelInner">
-      <div class="mobileBrand"><div class="brandMark"><span>F</span></div><span>FIRETRACK</span></div>
+      <div class="mobileBrand"><div class="brandMark" aria-label="Extincteur">🧯</div><span>FIRETRACK</span></div>
       <p class="loginEyebrow">ESPACE DE TRAVAIL</p>
       <h2>Bienvenue</h2>
       <p class="loginSubtitle">Connectez-vous pour accéder à votre espace FIRETRACK.</p>
@@ -69,7 +69,7 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
         <button type="submit" class="loginSubmit">Se connecter <span aria-hidden="true">→</span></button>
       </form>
       <p id="loginMsg" class="loginMessage" aria-live="polite"></p>
-      <div class="loginSecurity"><span>▣</span><div><strong>Connexion sécurisée</strong><small>Accès réservé aux utilisateurs autorisés</small></div></div>
+      <div class="loginSecurity"><span>🛡</span><div><strong>Connexion sécurisée</strong><small>Accès réservé aux utilisateurs autorisés</small></div></div>
     </div>
     <div class="loginLegal">FIRETRACK <span>•</span> Gestion de la sécurité incendie</div>
   </div>
@@ -167,3 +167,22 @@ async function addType(){if(!manager())return;let name=$("newType").value.trim()
 if(db){db.auth.getSession().then(r=>{if(r.data.session)start(r.data.session.user)}).catch(e=>msg("loginMsg","Connexion indisponible : "+e.message));}else{msg("loginMsg","Le module de connexion ne s’est pas chargé. Actualise la page.");}
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 </script></body></html>
+<style>
+/* Identité FIRETRACK : signalétique incendie, cohérente avec l'application */
+.loginBrand{background:linear-gradient(145deg,#10243b 0%,#183c56 72%,#1b604d 145%)}
+.loginBrand:before{border-style:dashed;opacity:.7}
+.brandMark{background:#ffffff0d;border:1px solid #ffffff55;color:#fff;font-size:27px;box-shadow:inset 0 0 0 4px #ffffff08}
+.brandRule{background:#2fb879;width:54px;height:4px}
+.brandEyebrow{color:#8fd5b4}
+.loginPanelInner h2{color:#102b43}
+.loginForm .loginSubmit{background:#176b52;box-shadow:0 4px 0 #0e503d}
+.loginForm .loginSubmit:hover{background:#1c795d}
+.loginSecurity>span{background:#e8f3ee;color:#176b52}
+.mobileBrand .brandMark{background:#10243b;box-shadow:inset 0 -3px 0 #176b52}
+.loginLegal{font-weight:650;letter-spacing:1px}
+@media(max-width:760px){
+ .loginPanel{background:linear-gradient(180deg,#10243b 0,#173d55 115px,#f3f6f9 115px)}
+ .loginPanelInner{border-top:4px solid #176b52}
+ .mobileBrand{color:#102b43}
+}
+</style>
