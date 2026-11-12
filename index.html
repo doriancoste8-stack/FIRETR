@@ -340,7 +340,7 @@ async function saveExt(){
  if(!manager())return;
  const reference=$("fRef").value.trim().toUpperCase(),building_id=$("fBuilding").value||null,location=$("fLocation").value.trim(),type=$("fType").value;
  if(!reference||!location||!type)return alert("Référence, type et emplacement sont obligatoires.");
- const duplicateQuery=await db.from("extinguishers").select("id").eq("reference",reference).neq("id",editingId||"00000000-0000-0000-0000-000000000000").limit(1);
+ const duplicateQuery=await db.from("extinguishers").select("id").eq("reference",reference).neq("id",editingId||"00000000-0000-0000-0000-000000000000").neq("status","removed").limit(1);
  if(duplicateQuery.error)return alert("Vérification de la référence impossible : "+duplicateQuery.error.message);
  if(duplicateQuery.data?.length)return alert("Cette référence existe déjà dans FIRETRACK. Chaque extincteur doit avoir une référence unique.");
  const payload={reference,building_id,location,extinguisher_type:type,capacity:$("fCapacity").value.trim()||null,installation_date:$("fInstall").value||null,last_check_date:$("fLast").value||null,next_check_date:$("fNext").value||null,status:$("fStatus").value};
