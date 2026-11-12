@@ -52,6 +52,12 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
 .photoPreview img{width:82px;height:82px;object-fit:cover;border-radius:10px;border:1px solid #dbe3ea}
 .inspectionPhotoGallery .anomalyPhoto{width:112px;height:112px;object-fit:cover;border-radius:10px;border:1px solid #dbe3ea;display:block}
 .photoUploadBlock{margin:18px 0 14px;padding:15px;border:1px solid #d7e2eb;border-radius:12px;background:#f7fafc}.photoUploadTitle{display:block;color:#1c354e;font-size:14px;margin-bottom:4px}.photoPickerButton{position:relative;display:flex!important;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin:12px 0 4px!important;padding:12px 15px;border:1px solid #176b52;border-radius:10px;background:#176b52;color:#fff!important;font-size:14px!important;font-weight:750!important;text-align:center;cursor:pointer}.photoUploadInput{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0!important}.photoUploadInput:focus-visible+.photoPickerButton{outline:3px solid #369477}.photoUploadBlock .inspectionPhotosPreview{margin-top:12px}body[data-theme="dark"] .photoUploadBlock{background:#142231;border-color:#34475b}body[data-theme="dark"] .photoUploadTitle{color:#e6edf5}
+
+/* FIRETRACK — espacement des actions de suppression des zones */
+#buildings .item .row:has(>button[data-zone]){
+  gap:12px;
+  margin:12px 0;
+}
 </style>
 <style>
 /* Harmonisation visuelle des icônes et des commandes */
