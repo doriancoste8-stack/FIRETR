@@ -339,6 +339,6 @@ body[data-theme="dark"] .page .stat span{color:#bdcbd8}
  .page .actions{gap:7px}
  .page .actions button{flex:1 1 auto;min-width:105px}
 }
-@media(max-width:800px){.side{height:calc(100vh - 64px);height:calc(100dvh - 64px);max-height:calc(100dvh - 64px)}}
+@media(max-width:800px){.side{height:auto;max-height:none;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(22px + env(safe-area-inset-bottom))}}
 @media(prefers-reduced-motion:reduce){.page{animation:none}.page button{transition:none}}
 </style>
