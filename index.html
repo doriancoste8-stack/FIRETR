@@ -15,12 +15,13 @@ button,input,select,textarea{font:inherit}
 button{border:0;border-radius:9px;padding:12px 15px;background:#176b52;color:white;font-weight:bold;cursor:pointer}
 button.secondary{background:#e8eef5;color:#172b45}
 button.danger{background:#b83232}
+button:disabled{opacity:.5}
 input,select,textarea{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccd5df;border-radius:9px;font-size:16px;background:white}
-textarea{min-height:90px}
+textarea{min-height:85px}
+label{font-size:13px;font-weight:bold}
 .hidden{display:none!important}
 #login{max-width:430px;margin:12vh auto;padding:25px;background:white;border-radius:18px;box-shadow:0 5px 25px #0001}
-#login h1{margin-top:0;color:#172b45}
-#app{min-height:100vh}
+#login h1{margin-top:0}
 .topbar{height:65px;background:#172b45;color:white;display:flex;align-items:center;padding:0 16px;gap:14px;position:sticky;top:0;z-index:5}
 .topbar h1{font-size:19px;letter-spacing:2px;margin:0;flex:1}
 .menu-btn{background:#294563;font-size:22px;padding:7px 13px}
@@ -39,23 +40,25 @@ textarea{min-height:90px}
 .small{font-size:13px;color:#687789}
 .item{border:1px solid #e0e6ed;border-radius:10px;padding:13px;margin:10px 0;background:white}
 .item strong{display:block;margin-bottom:6px}
-.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#e5f5ed;color:#176b52;font-size:12px}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#e5f5ed;color:#176b52;font-size:12px;margin:3px 3px 3px 0}
 .tag.red{background:#fde8e8;color:#a52222}
 .tag.orange{background:#fff0d8;color:#9a5a00}
-hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 .actions button{flex:1}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar>*{flex:1;min-width:130px}
 .overlay{display:none}
+.notice{padding:12px;background:#edf3f8;border-radius:9px;font-size:13px;margin:10px 0}
 @media(max-width:760px){
- .sidebar{position:fixed;z-index:10;top:65px;bottom:0;left:0;width:280px;overflow-y:auto;transform:translateX(-105%);transition:transform .2s}
- .sidebar.open{transform:translateX(0)}
- .overlay.open{display:block;position:fixed;inset:65px 0 0;background:#0007;z-index:9}
- .content{padding:13px}
- .card{padding:15px}
+.sidebar{position:fixed;z-index:10;top:65px;bottom:0;left:0;width:280px;overflow-y:auto;transform:translateX(-105%);transition:transform .2s}
+.sidebar.open{transform:translateX(0)}
+.overlay.open{display:block;position:fixed;inset:65px 0 0;background:#0007;z-index:9}
+.content{padding:13px}
+.card{padding:15px}
 }
 @media(min-width:761px){
- .menu-btn{display:none}
- .sidebar{position:sticky;top:65px;height:calc(100vh - 65px)}
+.menu-btn{display:none}
+.sidebar{position:sticky;top:65px;height:calc(100vh - 65px)}
 }
 </style>
 </head>
@@ -129,7 +132,48 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 
 <section id="inventory" class="page hidden">
 <h2 class="page-title">🧯 Inventaire des extincteurs</h2>
+<div class="toolbar">
 <input id="search" placeholder="Rechercher par code, lieu ou bâtiment..." oninput="renderInventory()">
+<select id="inventoryFilter" onchange="renderInventory()">
+<option value="">Tous les états</option>
+<option value="ok">Conformes</option>
+<option value="anomaly">Avec anomalie</option>
+</select>
+</div>
+<div id="managerAddButton" class="card hidden">
+<button onclick="openExtForm()">＋ Ajouter un extincteur</button>
+<button class="secondary" onclick="exportInventory()">Exporter l'inventaire CSV</button>
+</div>
+<div id="extForm" class="card hidden">
+<h3 id="extFormTitle">Ajouter un extincteur</h3>
+<label>Code / numéro</label>
+<input id="extCode" placeholder="Ex : EXT-001">
+<label>Bâtiment</label>
+<select id="extBuilding"></select>
+<label>Emplacement précis</label>
+<input id="extLocation" placeholder="Ex : Couloir du rez-de-chaussée">
+<label>Type</label>
+<select id="extType">
+<option>CO2</option>
+<option>Eau pulvérisée</option>
+<option>Poudre ABC</option>
+<option>Mousse</option>
+<option>Autre</option>
+</select>
+<label>Capacité</label>
+<input id="extCapacity" placeholder="Ex : 6 kg">
+<label>État</label>
+<select id="extStatus">
+<option value="ok">Conforme</option>
+<option value="anomaly">Anomalie / à vérifier</option>
+</select>
+<label>Prochaine échéance (facultatif)</label>
+<input id="extDue" type="date">
+<div class="actions">
+<button onclick="saveExtinguisher()">Enregistrer</button>
+<button class="secondary" onclick="closeExtForm()">Annuler</button>
+</div>
+</div>
 <div id="inventoryList"></div>
 </section>
 
@@ -145,7 +189,7 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 <option value="anomaly">Anomalie constatée</option>
 </select>
 <label>Observations</label>
-<textarea id="checkComment" placeholder="Observations éventuelles"></textarea>
+<textarea id="checkComment" placeholder="État général, accessibilité, signalisation, scellé, pression..."></textarea>
 <button onclick="saveCheck()">Enregistrer le contrôle</button>
 </div>
 <div class="card"><h3>Derniers contrôles</h3><div id="checksList"></div></div>
@@ -193,7 +237,7 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 <div class="stat"><b id="reportDone">0</b><span>Contrôles chargés</span></div>
 <div class="stat"><b id="reportBuildings">0</b><span>Bâtiments</span></div>
 </div>
-<p class="small">Ces indicateurs sont calculés à partir des données enregistrées dans FIRETRACK.</p>
+<button class="secondary" onclick="exportInventory()">Exporter l'inventaire CSV</button>
 </div>
 </section>
 
@@ -202,10 +246,9 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 <div class="card">
 <h3>Gestion des accès</h3>
 <p>Les comptes sont créés dans l'espace d'authentification Supabase. Chaque compte doit posséder un profil FIRETRACK.</p>
-<p>Les rôles actuellement reconnus sont :</p>
 <div class="item"><strong>Responsable</strong>Administration et accès aux paramètres.</div>
 <div class="item"><strong>Agent</strong>Consultation, contrôles et signalements.</div>
-<p class="small">La création de comptes et la modification des rôles seront ajoutées dans une prochaine étape sécurisée.</p>
+<p class="small">La création de comptes et la modification des rôles nécessitent une fonction sécurisée qui sera ajoutée séparément.</p>
 </div>
 </section>
 
@@ -220,11 +263,7 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 <div class="card">
 <h3>Organisation des contrôles</h3>
 <p>Les contrôles internes sont prévus chaque semaine.</p>
-<p class="small">La fréquence affichée ici est informative. Elle ne modifie pas automatiquement les obligations réglementaires ou les échéances des appareils.</p>
-</div>
-<div class="card">
-<h3>Gestion du site</h3>
-<p>Les bâtiments et les extincteurs peuvent être ajoutés depuis la rubrique Bâtiments et zones et les fonctions d'administration.</p>
+<p class="small">Cette fréquence est informative et ne remplace pas les vérifications réglementaires et la maintenance par une personne compétente.</p>
 </div>
 </section>
 
@@ -238,22 +277,6 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
 </div>
 </section>
 
-<section id="admin" class="page hidden">
-<h2 class="page-title">Administration</h2>
-<div class="card">
-<h3>Ajouter un extincteur</h3>
-<input id="extCode" placeholder="Numéro / code extincteur">
-<select id="extBuilding"></select>
-<input id="extLocation" placeholder="Emplacement précis">
-<select id="extType">
-<option>CO2</option><option>Eau pulvérisée</option>
-<option>Poudre ABC</option><option>Mousse</option><option>Autre</option>
-</select>
-<input id="extCapacity" placeholder="Capacité (ex : 6 kg)">
-<button onclick="addExtinguisher()">Ajouter l'extincteur</button>
-</div>
-</section>
-
 </main>
 </div>
 </div>
@@ -263,14 +286,23 @@ const SUPABASE_URL="https://xsobixwjejsaucwmhbwv.supabase.co";
 const SUPABASE_KEY="sb_publishable_7Ch6KK0QcNucDG8Ihbsqdg_G7IRtl-g";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-let currentUser=null,profile=null,extinguishers=[],buildings=[],inspections=[],anomalies=[];
+let currentUser=null,profile=null;
+let extinguishers=[],buildings=[],inspections=[],anomalies=[];
+let editingExtId=null;
 
-function msg(id,text){document.getElementById(id).textContent=text}
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function msg(id,text){
+ const el=document.getElementById(id);
+ if(el)el.textContent=text;
+}
+function esc(v){
+ return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function isManager(){return profile?.role==='manager'}
 
 async function login(){
  const email=document.getElementById('email').value.trim();
  const password=document.getElementById('password').value;
+ if(!email||!password){msg('loginMsg','Renseignez votre adresse e-mail et votre mot de passe.');return}
  msg('loginMsg','Connexion en cours...');
  const {data,error}=await db.auth.signInWithPassword({email,password});
  if(error){msg('loginMsg',error.message);return}
@@ -284,17 +316,16 @@ async function startApp(user){
  profile=data;
  document.getElementById('login').classList.add('hidden');
  document.getElementById('app').classList.remove('hidden');
- document.getElementById('welcome').textContent='Bienvenue, '+(profile.full_name||user.email);
- const role=profile.role==='manager'?'Responsable':'Agent';
- msg('role',role);
+ const role=isManager()?'Responsable':'Agent';
+ msg('welcome','Bienvenue, '+(profile.full_name||user.email));
  msg('topRole',role);
  msg('profileName',profile.full_name||'Non renseigné');
  msg('profileEmail',user.email);
  msg('profileRole',role);
- if(profile.role==='manager'){
+ if(isManager()){
   document.getElementById('adminMenu').classList.remove('hidden');
   document.getElementById('buildingAdmin').classList.remove('hidden');
-  document.getElementById('admin').classList.remove('hidden');
+  document.getElementById('managerAddButton').classList.remove('hidden');
  }
  await refresh();
 }
@@ -310,9 +341,10 @@ function toggleMenu(){
 }
 
 function showTab(id){
- document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
  const page=document.getElementById(id);
  if(!page)return;
+ if(['users','settings'].includes(id)&&!isManager())return;
+ document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
  page.classList.remove('hidden');
  document.querySelectorAll('.nav-btn[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));
  document.getElementById('sidebar').classList.remove('open');
@@ -323,11 +355,11 @@ async function refresh(){
  const [e,b,c,a]=await Promise.all([
   db.from('extinguishers').select('*, buildings(name)').order('code'),
   db.from('buildings').select('*').order('name'),
-  db.from('inspections').select('*').order('checked_at',{ascending:false}).limit(100),
+  db.from('inspections').select('*').order('checked_at',{ascending:false}).limit(200),
   db.from('anomalies').select('*, extinguishers(code)').order('created_at',{ascending:false})
  ]);
  if(e.error||b.error||c.error||a.error){
-  alert("Erreur de chargement des données. Vérifiez les autorisations Supabase.");
+  alert("Erreur de chargement des données : "+[e.error,b.error,c.error,a.error].filter(Boolean).map(x=>x.message).join(' | '));
   return;
  }
  extinguishers=e.data||[];
@@ -339,7 +371,7 @@ async function refresh(){
  ['bad','reportBad'].forEach(id=>msg(id,open));
  ['done','reportDone'].forEach(id=>msg(id,inspections.length));
  ['buildingsCount','reportBuildings'].forEach(id=>msg(id,buildings.length));
- msg('homeInfo',open+' anomalie(s) ouverte(s) actuellement.');
+ msg('homeInfo',open+' anomalie(s) ouverte(s) actuellement. '+extinguishers.length+' extincteur(s) dans le parc.');
  renderInventory();
  fillSelects();
  renderChecks();
@@ -352,34 +384,129 @@ function fillSelects(){
  ['checkExt','anomalyExt'].forEach(id=>{
   const s=document.getElementById(id);
   s.innerHTML='';
+  s.add(new Option('Choisir un extincteur',''));
   extinguishers.forEach(x=>s.add(new Option(x.code+' — '+x.location,x.id)));
  });
  const b=document.getElementById('extBuilding');
  b.innerHTML='';
+ b.add(new Option('Choisir un bâtiment',''));
  buildings.forEach(x=>b.add(new Option(x.name,x.id)));
 }
 
 function renderInventory(){
- const q=document.getElementById('search').value.toLowerCase();
- const list=extinguishers.filter(x=>(x.code+' '+x.location+' '+(x.buildings?.name||'')).toLowerCase().includes(q));
+ const q=(document.getElementById('search').value||'').toLowerCase();
+ const filter=document.getElementById('inventoryFilter').value;
+ const list=extinguishers.filter(x=>{
+  const text=(x.code+' '+x.location+' '+(x.buildings?.name||'')).toLowerCase();
+  return text.includes(q)&&(!filter||x.condition_status===filter);
+ });
  document.getElementById('inventoryList').innerHTML=list.map(x=>`
- <div class="item"><strong>${esc(x.code)}</strong>
+ <div class="item">
+ <strong>${esc(x.code)}</strong>
  ${esc(x.type)} ${esc(x.capacity||'')}<br>
  <span class="small">${esc(x.buildings?.name||'')} — ${esc(x.location)}</span><br>
- <span class="tag ${x.condition_status==='ok'?'':'red'}">${esc(x.condition_status||'À vérifier')}</span>
- ${x.next_due?'<span class="small">Échéance : '+esc(x.next_due)+'</span>':''}</div>`).join('')||'<p class="small">Aucun extincteur trouvé.</p>';
+ <span class="tag ${x.condition_status==='ok'?'':'red'}">${esc(x.condition_status==='ok'?'Conforme':x.condition_status||'À vérifier')}</span>
+ ${x.next_due?'<span class="small">Échéance : '+esc(x.next_due)+'</span>':''}
+ ${isManager()?`<div class="actions"><button class="secondary" onclick="editExtinguisher('${esc(x.id)}')">✏️ Modifier</button><button class="danger" onclick="deleteExtinguisher('${esc(x.id)}')">Supprimer</button></div>`:''}
+ </div>`).join('')||'<p class="small">Aucun extincteur trouvé.</p>';
+}
+
+function openExtForm(){
+ if(!isManager())return;
+ editingExtId=null;
+ msg('extFormTitle','Ajouter un extincteur');
+ document.getElementById('extCode').value='';
+ document.getElementById('extLocation').value='';
+ document.getElementById('extCapacity').value='';
+ document.getElementById('extStatus').value='ok';
+ document.getElementById('extDue').value='';
+ document.getElementById('extBuilding').value='';
+ document.getElementById('extType').selectedIndex=0;
+ document.getElementById('extForm').classList.remove('hidden');
+ document.getElementById('extForm').scrollIntoView({behavior:'smooth'});
+}
+
+function closeExtForm(){
+ document.getElementById('extForm').classList.add('hidden');
+ editingExtId=null;
+}
+
+function editExtinguisher(id){
+ if(!isManager())return;
+ const x=extinguishers.find(item=>item.id===id);
+ if(!x)return;
+ editingExtId=id;
+ msg('extFormTitle','Modifier l’extincteur '+x.code);
+ document.getElementById('extCode').value=x.code||'';
+ document.getElementById('extLocation').value=x.location||'';
+ document.getElementById('extCapacity').value=x.capacity||'';
+ document.getElementById('extBuilding').value=x.building_id||'';
+ document.getElementById('extType').value=x.type||'CO2';
+ document.getElementById('extStatus').value=x.condition_status||'ok';
+ document.getElementById('extDue').value=x.next_due||'';
+ document.getElementById('extForm').classList.remove('hidden');
+ document.getElementById('extForm').scrollIntoView({behavior:'smooth'});
+}
+
+async function saveExtinguisher(){
+ if(!isManager())return;
+ const code=document.getElementById('extCode').value.trim();
+ const building_id=document.getElementById('extBuilding').value;
+ const location=document.getElementById('extLocation').value.trim();
+ if(!code||!building_id||!location){alert('Renseignez le code, le bâtiment et l’emplacement.');return}
+ const payload={
+  code,building_id,location,
+  type:document.getElementById('extType').value,
+  capacity:document.getElementById('extCapacity').value.trim(),
+  condition_status:document.getElementById('extStatus').value,
+  next_due:document.getElementById('extDue').value||null
+ };
+ let result;
+ if(editingExtId){
+  result=await db.from('extinguishers').update(payload).eq('id',editingExtId);
+ }else{
+  result=await db.from('extinguishers').insert(payload);
+ }
+ if(result.error){alert("Enregistrement impossible : "+result.error.message);return}
+ closeExtForm();
+ await refresh();
+ alert(editingExtId?'Extincteur modifié.':'Extincteur ajouté.');
+}
+
+async function deleteExtinguisher(id){
+ if(!isManager())return;
+ if(!confirm('Supprimer cet extincteur ? Cette opération peut être bloquée s’il possède déjà des contrôles ou des anomalies.'))return;
+ const {error}=await db.from('extinguishers').delete().eq('id',id);
+ if(error){alert("Suppression impossible : "+error.message);return}
+ await refresh();
+}
+
+function exportInventory(){
+ if(!extinguishers.length){alert('Aucun extincteur à exporter.');return}
+ const rows=[['Code','Bâtiment','Emplacement','Type','Capacité','État','Échéance']];
+ extinguishers.forEach(x=>rows.push([
+  x.code,x.buildings?.name||'',x.location,x.type,x.capacity,x.condition_status,x.next_due
+ ]));
+ const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;a.download='FIRETRACK_inventaire.csv';a.click();
+ URL.revokeObjectURL(url);
 }
 
 async function saveCheck(){
  const id=document.getElementById('checkExt').value;
- if(!id)return alert('Ajoutez d’abord un extincteur.');
+ if(!id)return alert('Choisissez un extincteur.');
  const result=document.getElementById('checkResult').value;
- const comment=document.getElementById('checkComment').value;
- const {error}=await db.from('inspections').insert({extinguisher_id:id,checked_by:currentUser.id,result,comment});
+ const comment=document.getElementById('checkComment').value.trim();
+ const {error}=await db.from('inspections').insert({
+  extinguisher_id:id,checked_by:currentUser.id,result,comment
+ });
  if(error){alert(error.message);return}
  if(result==='anomaly'){
   const update=await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
-  if(update.error)alert("Contrôle enregistré, mais mise à jour de l'état impossible : "+update.error.message);
+  if(update.error)alert("Contrôle enregistré, mais état non actualisé : "+update.error.message);
  }
  document.getElementById('checkComment').value='';
  alert('Contrôle enregistré.');
@@ -398,10 +525,11 @@ async function saveAnomaly(){
  if(!id||!title)return alert('Choisissez un extincteur et indiquez un titre.');
  const {error}=await db.from('anomalies').insert({
   extinguisher_id:id,reported_by:currentUser.id,title,
-  description:document.getElementById('anomalyDesc').value
+  description:document.getElementById('anomalyDesc').value.trim()
  });
  if(error){alert(error.message);return}
- await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
+ const update=await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
+ if(update.error)alert("Signalement enregistré, mais état de l'extincteur non actualisé : "+update.error.message);
  document.getElementById('anomalyTitle').value='';
  document.getElementById('anomalyDesc').value='';
  alert('Anomalie signalée.');
@@ -413,11 +541,12 @@ function renderAnomalies(){
  <div class="item"><strong>${esc(x.title)}</strong>
  ${esc(x.extinguishers?.code||'')} — ${esc(x.description||'')}<br>
  <span class="tag red">${esc(x.status||'ouverte')}</span>
- ${profile.role==='manager'&&x.status!=='resolved'?`<button onclick="resolveAnomaly('${esc(x.id)}')">Clôturer</button>`:''}
+ ${isManager()&&x.status!=='resolved'?`<button onclick="resolveAnomaly('${esc(x.id)}')">Clôturer</button>`:''}
  </div>`).join('')||'<p class="small">Aucun signalement.</p>';
 }
 
 async function resolveAnomaly(id){
+ if(!isManager())return;
  const {error}=await db.from('anomalies').update({
   status:'resolved',resolved_at:new Date().toISOString(),resolved_by:currentUser.id
  }).eq('id',id);
@@ -442,35 +571,17 @@ function renderHistory(){
 }
 
 async function addBuilding(){
+ if(!isManager())return;
  const name=document.getElementById('buildingName').value.trim();
  if(!name)return alert('Indiquez un nom.');
  const {error}=await db.from('buildings').insert({
-  name,address:document.getElementById('buildingAddress').value
+  name,address:document.getElementById('buildingAddress').value.trim()
  });
  if(error){alert(error.message);return}
  document.getElementById('buildingName').value='';
  document.getElementById('buildingAddress').value='';
  await refresh();
  alert('Bâtiment ajouté.');
-}
-
-async function addExtinguisher(){
- const code=document.getElementById('extCode').value.trim();
- const building_id=document.getElementById('extBuilding').value;
- const location=document.getElementById('extLocation').value.trim();
- if(!code||!building_id||!location)return alert('Remplissez les champs obligatoires.');
- const {error}=await db.from('extinguishers').insert({
-  code,building_id,location,
-  type:document.getElementById('extType').value,
-  capacity:document.getElementById('extCapacity').value
- });
- if(error){alert(error.message);return}
- document.getElementById('extCode').value='';
- document.getElementById('extLocation').value='';
- document.getElementById('extCapacity').value='';
- await refresh();
- alert('Extincteur ajouté.');
- showTab('inventory');
 }
 
 db.auth.getSession().then(({data})=>{
