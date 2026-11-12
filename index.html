@@ -62,6 +62,13 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
 /* FIRETRACK — espacement des actions principales de l’inventaire */
 .inventoryMainActions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .inventoryMainActions button{flex:0 1 auto}
+/* FIRETRACK — présentation ciblée de l’historique */
+.historyFilters{align-items:center;gap:10px;margin:10px 0}
+.historyFilters input{flex:2 1 220px;min-width:0}
+.historyFilters select{flex:1 1 150px;min-width:0}
+.historyEntryHead{align-items:flex-start;justify-content:space-between;gap:10px}
+.historyEntryHead strong{flex:1;min-width:0}
+@media(max-width:520px){.historyFilters{flex-direction:column;align-items:stretch}.historyFilters input,.historyFilters select{width:100%;flex:1 1 auto}}
 </style>
 <style>
 /* Harmonisation visuelle des icônes et des commandes */
@@ -307,7 +314,22 @@ body[data-theme="dark"] .page .stat span{color:#bdcbd8}
 <section id="anomalies" class="page hidden"><h2 class="pageTitle">⚠ Suivi des anomalies</h2><div class="card"><h3>Signaler une anomalie</h3><label>Extincteur concerné</label><select id="aExt"></select><label>Titre</label><input id="aTitle" placeholder="Ex. Scellé absent"><label>Gravité</label><select id="aSeverity"><option value="low">Faible</option><option value="medium" selected>Moyenne</option><option value="high">Élevée</option><option value="critical">Critique</option></select><label>Responsable du suivi</label><select id="aAssignedTo"><option value="">À attribuer</option></select><label>Date cible de résolution</label><input id="aDueDate" type="date"><label>Description</label><textarea id="aDesc" placeholder="Décrire précisément le problème…"></textarea><label>Photo de l’anomalie (JPEG, PNG ou WebP — 5 Mo maximum)</label><input id="aPhoto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"><button onclick="saveAnomaly()">Signaler l’anomalie</button><p id="anomalyCreateMsg" class="muted"></p></div><div class="card"><div class="row"><h3 style="flex:2">Signalements</h3><select id="aFilter" onchange="renderAnomalies()"><option value="">Tous les statuts</option><option value="open">Ouvertes</option><option value="in_progress">En cours</option><option value="resolved">Résolues</option></select></div><div id="anomalyList"></div></div></section>
 <section id="maintenance" class="page hidden"><h2 class="pageTitle">🔧 Maintenance & vérifications</h2><div id="maintenanceForm" class="card hidden"><h3>Ajouter une intervention</h3><label>Extincteur</label><select id="mExt"></select><label>Type d'intervention</label><select id="mType"><option value="maintenance">Maintenance</option><option value="verification">Vérification</option><option value="repair">Réparation</option><option value="replacement">Remplacement</option><option value="recharge">Recharge</option></select><label>Prestataire</label><input id="mProvider" placeholder="Société"><label>Technicien</label><input id="mTechnician" placeholder="Nom du technicien"><label>Date de l'intervention</label><input id="mDate" type="date"><label>Prochaine échéance</label><input id="mNext" type="date"><label>Résultat</label><select id="mResult"><option value="completed">Terminée</option><option value="pending">En attente</option><option value="failed">Échec / non conforme</option></select><label>Notes</label><textarea id="mNotes"></textarea><button onclick="saveMaintenance()">Enregistrer l'intervention</button></div><div class="card"><div class="row"><h3 style="flex:2">Historique des interventions</h3><button id="addMaintenance" class="hidden" onclick="document.getElementById('maintenanceForm').classList.toggle('hidden')">＋ Ajouter</button></div><div id="maintenanceList"></div></div></section>
 <section id="buildings" class="page hidden"><h2 class="pageTitle">▦ Bâtiments & zones</h2><div id="buildingForm" class="card hidden"><h3>Ajouter un bâtiment</h3><input id="bName" placeholder="Nom du bâtiment"><input id="bAddress" placeholder="Adresse / précision"><button onclick="addBuilding()">Ajouter</button></div><div id="buildingList"></div></section>
-<section id="history" class="page hidden"><h2 class="pageTitle">◷ Historique des contrôles</h2><div class="card"><div id="historyList"></div></div></section>
+<section id="history" class="page hidden"><h2 class="pageTitle">◷ Historique des contrôles</h2>
+<div class="grid historyStats">
+<div class="stat"><b id="historyTotal">0</b><span>Contrôles enregistrés</span></div>
+<div class="stat"><b id="historyCompliant">0</b><span>Conformes</span></div>
+<div class="stat"><b id="historyIssues">0</b><span>Avec anomalie</span></div>
+</div>
+<div class="card">
+<h3>Rechercher dans l’historique</h3>
+<div class="row historyFilters">
+<input id="historySearch" type="search" placeholder="Référence, bâtiment, emplacement…" oninput="renderHistory()" aria-label="Rechercher dans l’historique">
+<select id="historyResultFilter" onchange="renderHistory()" aria-label="Filtrer par résultat"><option value="">Tous les résultats</option><option value="compliant">Conformes</option><option value="anomaly">Avec anomalie</option></select>
+<select id="historyPeriodFilter" onchange="renderHistory()" aria-label="Filtrer par période"><option value="">Toutes les dates</option><option value="7">7 derniers jours</option><option value="30">30 derniers jours</option><option value="90">90 derniers jours</option></select>
+</div>
+<p id="historyCount" class="muted"></p>
+<div id="historyList"></div>
+</div></section>
 <section id="reports" class="page hidden"><h2 class="pageTitle">▤ Rapports & exports</h2><div class="card"><h3>Synthèse du parc</h3><div class="grid"><div class="stat"><b id="rTotal">0</b><span>Appareils</span></div><div class="stat"><b id="rOpen">0</b><span>Anomalies ouvertes</span></div><div class="stat"><b id="rChecks">0</b><span>Contrôles</span></div><div class="stat"><b id="rMaint">0</b><span>Interventions</span></div></div><div class="actions"><button onclick="printReport()">Générer le rapport PDF</button><button class="secondary" onclick="exportInventory()">Exporter inventaire CSV</button><button class="secondary" onclick="exportChecks()">Exporter contrôles CSV</button><button class="secondary" onclick="exportAnomalies()">Exporter anomalies CSV</button></div><p class="muted">Le rapport s’ouvre dans la fenêtre d’impression de l’iPhone : choisis « Enregistrer dans Fichiers » pour conserver le PDF.</p></div><div id="printReport" class="printReport hidden"></div></section>
 <section id="users" class="page hidden"><h2 class="pageTitle">♙ Agents & utilisateurs</h2><div class="card"><h3>Créer un compte</h3><label>Nom et prénom</label><input id="newUserName" placeholder="Nom de l'agent"><label>Identifiant de connexion</label><input id="newUserUsername" type="text" autocapitalize="characters" placeholder="Ex. AGENT001"><label>Mot de passe provisoire (8 caractères minimum)</label><input id="newUserPassword" type="password" autocomplete="new-password"><label>Rôle</label><select id="newUserRole"><option value="agent">Agent</option><option value="manager">Responsable</option></select><button onclick="createFiretrackUser()">Créer le compte</button><p id="userCreateMsg" class="muted"></p></div><div class="card"><h3>Comptes existants</h3><div id="usersList"></div></div></section>
 <section id="settings" class="page hidden settingsPage">
@@ -452,7 +474,35 @@ function viewBuilding(id){const b=buildings.find(x=>x.id===id);if(!b)return;$("s
 async function deleteBuilding(id){if(!manager())return;let b=buildings.find(x=>x.id===id),count=exts.filter(x=>x.building_id===id).length;if(!confirm('Supprimer le bâtiment « '+(b?.name||'')+' » ? Les '+count+' extincteur(s) associés seront conservés mais détachés du bâtiment.'))return;let r=await db.from("extinguishers").update({building_id:null}).eq("building_id",id);if(r.error)return alert("Impossible de détacher les extincteurs : "+r.error.message);r=await db.from("buildings").delete().eq("id",id);if(r.error)return alert("Suppression impossible : "+r.error.message);await refresh()}
 async function deleteZoneFromButton(button){if(!manager())return;const buildingId=button.dataset.buildingId,zone=button.dataset.zone;const count=exts.filter(x=>x.building_id===buildingId&&x.location===zone).length;if(!confirm('Supprimer la zone « '+zone+' » ? Les '+count+' extincteur(s) concernés resteront dans FIRETRACK avec l’emplacement « Zone à définir ».'))return;let r=await db.from("extinguishers").update({location:"Zone à définir"}).eq("building_id",buildingId).eq("location",zone);if(r.error)return alert("Suppression de zone impossible : "+r.error.message);await refresh()}
 async function addBuilding(){if(!manager())return;let name=$("bName").value.trim();if(!name)return alert("Saisis le nom du bâtiment.");let r=await db.from("buildings").insert({name,address:$("bAddress").value.trim()||null});if(r.error)return alert(r.error.message);$("bName").value="";$("bAddress").value="";await refresh()}
-async function renderHistory(){const cards=await Promise.all(checks.map(async c=>'<div class="item"><strong>'+esc(c.extinguishers?.reference||"Extincteur")+' — '+date(c.inspection_date)+'</strong><span class="tag '+(c.result==="compliant"?"":"red")+'">'+(c.result==="compliant"?"Conforme":"Anomalie")+'</span><p class="muted">'+esc(c.comments||"")+'</p>'+inspectionResultsHtml(c)+await inspectionPhotoGallery(c.photo_paths)+'</div>'));$("historyList").innerHTML=cards.join("")||'<p class="empty">Historique vide.</p>'}
+async function renderHistory(){
+ const search=($("historySearch")?.value||"").trim().toLocaleLowerCase("fr");
+ const resultFilter=$("historyResultFilter")?.value||"";
+ const period=$("historyPeriodFilter")?.value||"";
+ const now=new Date();now.setHours(0,0,0,0);
+ const cutoff=period?new Date(now.getTime()-Number(period)*86400000):null;
+ const compliant=checks.filter(c=>c.result==="compliant").length;
+ msg("historyTotal",checks.length);msg("historyCompliant",compliant);msg("historyIssues",checks.length-compliant);
+ const filtered=checks.filter(c=>{
+  if(resultFilter==="compliant"&&c.result!=="compliant")return false;
+  if(resultFilter==="anomaly"&&c.result==="compliant")return false;
+  if(cutoff){const d=new Date(c.inspection_date);if(Number.isNaN(d.getTime())||d<cutoff)return false;}
+  if(search){const ext=c.extinguishers||{};const haystack=[ext.reference,ext.buildings?.name,ext.location,c.comments,...(Array.isArray(c.checklist_results)?c.checklist_results.map(x=>x.label+" "+(x.comment||"")):[])].filter(Boolean).join(" ").toLocaleLowerCase("fr");if(!haystack.includes(search))return false;}
+  return true;
+ });
+ msg("historyCount",filtered.length+" contrôle(s) affiché(s) sur "+checks.length);
+ const cards=await Promise.all(filtered.map(async c=>{
+  const ext=c.extinguishers||{};
+  const result=c.result==="compliant";
+  return '<div class="item historyEntry"><div class="row historyEntryHead"><strong>'+esc(ext.reference||"Extincteur")+' — '+date(c.inspection_date)+'</strong><span class="tag '+(result?"":"red")+'">'+(result?"Conforme":"Anomalie")+'</span></div>'+
+  '<p class="muted">'+esc(ext.buildings?.name||"Bâtiment non précisé")+(ext.location?" · "+esc(ext.location):"")+'</p>'+
+  '<p>'+(c.comments?esc(c.comments):'<span class="muted">Aucune observation générale.</span>')+'</p>'+
+  inspectionResultsHtml(c)+await inspectionPhotoGallery(c.photo_paths)+
+  (ext.id?'<div class="actions"><button class="secondary" onclick="openHistoryExtinguisher(\''+esc(ext.id)+'\')">Voir la fiche extincteur</button></div>':'')+
+  '</div>';
+ }));
+ $("historyList").innerHTML=cards.join("")||'<p class="empty">Aucun contrôle ne correspond à ces critères.</p>';
+}
+function openHistoryExtinguisher(id){tab("inventory");showExtDetail(id)}
 
 function renderMaintenance(){$("maintenanceList").innerHTML=maintenance.map(m=>'<div class="item"><strong>'+esc(m.extinguishers?.reference||"Extincteur")+' — '+statusLabel(m.maintenance_type)+'</strong><span class="tag '+(m.result==="completed"?"":"orange")+'">'+statusLabel(m.result)+'</span><p class="muted">'+date(m.performed_at)+' · '+esc(m.provider||"Prestataire non précisé")+'</p><p>'+esc(m.notes||"")+'</p><p class="muted">Prochaine échéance : '+date(m.next_due_date)+'</p></div>').join("")||'<p class="empty">Aucune intervention enregistrée.</p>'}
 async function saveMaintenance(){if(!manager())return;let id=$("mExt").value;if(!id)return alert("Choisis un extincteur.");let r=await db.from("maintenance_records").insert({extinguisher_id:id,maintenance_type:$("mType").value,provider:$("mProvider").value.trim()||null,technician:$("mTechnician").value.trim()||null,performed_at:$("mDate").value||new Date().toISOString().slice(0,10),next_due_date:$("mNext").value||null,result:$("mResult").value,notes:$("mNotes").value.trim()||null,created_by:user.id});if(r.error)return alert(r.error.message);alert("Intervention enregistrée.");["mProvider","mTechnician","mNext","mNotes"].forEach(k=>$(k).value="");await refresh()}
