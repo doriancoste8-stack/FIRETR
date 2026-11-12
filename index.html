@@ -92,6 +92,90 @@ button.secondary,button.ghost,button.danger{font-weight:650}
 .anomalyPhoto{display:block;max-width:100%;max-height:260px;object-fit:contain;border-radius:10px;margin:12px 0;border:1px solid #dce5ed}.printReport{display:none}@media(max-width:800px){.checkProgress{padding:10px}.qrCodeArea{min-height:220px}}body[data-theme="dark"] .checkProgress{background:#24384b;color:#dce8f3}body[data-theme="dark"] .progressTrack{background:#33485b}
 @media print{body.print-report *{visibility:hidden!important}body.print-report #printReport,body.print-report #printReport *{visibility:visible!important}body.print-report #printReport{display:block!important;position:absolute;left:0;top:0;width:100%;padding:22px;color:#172b45;background:#fff;font-family:Arial,sans-serif}body.print-report #printReport h1{font-size:23px;margin:26px 0 8px}body.print-report #printReport h2{font-size:15px;margin:24px 0 8px;border-bottom:1px solid #ccd6df;padding-bottom:6px}body.print-report #printReport table{width:100%;border-collapse:collapse;font-size:10px;margin:8px 0 18px}body.print-report #printReport th,body.print-report #printReport td{border:1px solid #ccd6df;padding:6px;text-align:left}body.print-report #printReport th{background:#edf3f7}body.print-report .reportHeader{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #176b52;padding-bottom:12px}body.print-report .reportHeader strong{font-size:22px;letter-spacing:2px}body.print-report .reportHeader p{font-size:9px;letter-spacing:1.5px}body.print-report .reportStats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0}body.print-report .reportStats div{border:1px solid #ccd6df;padding:10px;border-radius:7px}body.print-report .reportStats b{display:block;font-size:22px}body.print-report .reportStats span{font-size:9px}body.print-report .reportFoot{font-size:9px;color:#657487;border-top:1px solid #ccd6df;padding-top:10px;margin-top:30px}body.print-qr *{visibility:hidden!important}body.print-qr #qrPanel,body.print-qr #qrPanel *{visibility:visible!important}body.print-qr #qrPanel{display:block!important;position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none;text-align:center}body.print-qr #qrCodeArea{border:0}}
 </style>
+<style>
+
+/* Identité FIRETRACK : signalétique incendie, cohérente avec l'application */
+.loginBrand{background:linear-gradient(145deg,#10243b 0%,#183c56 72%,#1b604d 145%)}
+.loginBrand:before{border-style:dashed;opacity:.7}
+.brandMark{background:#ffffff0d;border:1px solid #ffffff55;color:#fff;font-size:27px;box-shadow:inset 0 0 0 4px #ffffff08}
+.brandRule{background:#2fb879;width:54px;height:4px}
+.brandEyebrow{color:#8fd5b4}
+.loginPanelInner h2{color:#102b43}
+.loginForm .loginSubmit{background:#176b52;box-shadow:0 4px 0 #0e503d}
+.loginForm .loginSubmit:hover{background:#1c795d}
+.loginSecurity>span{background:#e8f3ee;color:#176b52}
+.mobileBrand .brandMark{background:#10243b;box-shadow:inset 0 -3px 0 #176b52}
+.loginLegal{font-weight:650;letter-spacing:1px}
+@media(max-width:760px){
+ .loginPanel{background:linear-gradient(180deg,#10243b 0,#173d55 115px,#f3f6f9 115px)}
+ .loginPanelInner{border-top:4px solid #176b52}
+ .mobileBrand{color:#102b43}
+}
+
+/* Cohérence des pages : titres, panneaux, formulaires et listes */
+.page{min-width:0;animation:ftPageIn .18s ease-out}
+@keyframes ftPageIn{from{opacity:.82;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.page .pageTitle{display:flex;align-items:center;gap:10px;margin:3px 0 20px;padding:0 0 13px;border-bottom:1px solid #dfe7ee;color:#142c45;font-size:23px;font-weight:780;letter-spacing:-.45px;line-height:1.25}
+.page .card{border:1px solid #e4eaf0;border-radius:14px;padding:19px;margin:14px 0;box-shadow:0 4px 16px #152c4308}
+.page .card h3{font-size:16px;font-weight:750;letter-spacing:-.15px;color:#1c354e;margin:0 0 14px;line-height:1.35}
+.page .card>strong{font-size:15px;color:#1c354e}
+.page .muted{line-height:1.5}
+.page .item{border:1px solid #e2e9ef;border-radius:11px;padding:14px 15px;margin:9px 0;box-shadow:0 1px 4px #152c4305}
+.page .item strong{font-size:14px;line-height:1.4;color:#1d354d}
+.page .tag{vertical-align:middle;letter-spacing:.1px}
+.page label{font-size:12px;font-weight:750;letter-spacing:.1px;color:#43566b;margin:9px 0 5px}
+.page input:not([type=checkbox]),.page select,.page textarea{border:1px solid #d4dee8;border-radius:9px;background:#fbfcfe;padding:11px 12px;margin:5px 0 12px;min-height:43px;box-shadow:inset 0 1px 2px #172b4505;transition:border-color .15s,box-shadow .15s}
+.page input:focus,.page select:focus,.page textarea:focus{outline:none;border-color:#369477;box-shadow:0 0 0 3px #36947718}
+.page textarea{min-height:96px;line-height:1.5}
+.page .notice{border:1px solid #dce7ef;border-left:3px solid #3b8c76;background:#f3f7fa;border-radius:9px;line-height:1.5}
+.page .empty{border:1px dashed #d8e2eb;border-radius:10px;background:#f9fbfd;font-size:13px}
+.page .checkline{gap:12px;padding:12px 3px;border-bottom:1px solid #edf1f5}
+.page .checkline input{accent-color:#176b52;flex:0 0 19px}
+.page .checkline label{font-size:13px;font-weight:600;color:#40546a;line-height:1.4}
+.page button{transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+.page button:active{transform:translateY(1px);filter:brightness(.96)}
+.page button:focus-visible{outline:3px solid #3c9b7b55;outline-offset:2px}
+.page .actions{padding-top:2px}
+.page .actions button{min-height:38px}
+.page .grid{gap:13px}
+.page .stat{border:1px solid #e1e9ef;background:linear-gradient(145deg,#f4f8fb,#eaf1f6);border-radius:12px;padding:15px}
+.page .stat b{font-size:27px;color:#173650;letter-spacing:-.5px}
+.page .stat span{font-size:12px;line-height:1.35;color:#64778b}
+.page .row{align-items:center;gap:10px}
+.page .row h3{margin-bottom:0}
+body[data-theme="dark"] .page .pageTitle{color:#edf4fa;border-color:#34475b}
+body[data-theme="dark"] .page .card{border-color:#34475b;box-shadow:none}
+body[data-theme="dark"] .page .card h3,body[data-theme="dark"] .page .card>strong,body[data-theme="dark"] .page .item strong{color:#e5edf5}
+body[data-theme="dark"] .page .item{border-color:#34475b;box-shadow:none}
+body[data-theme="dark"] .page input:not([type=checkbox]),body[data-theme="dark"] .page select,body[data-theme="dark"] .page textarea{background:#142231;border-color:#40546a;color:#e6edf5}
+body[data-theme="dark"] .page label,body[data-theme="dark"] .page .checkline label{color:#c4d1de}
+body[data-theme="dark"] .page .notice{background:#223548;border-color:#3b5267;color:#dce8f3}
+body[data-theme="dark"] .page .empty{background:#182737;border-color:#40546a;color:#b9c7d5}
+body[data-theme="dark"] .page .stat{background:linear-gradient(145deg,#24384b,#1c2d3e);border-color:#3a5065}
+body[data-theme="dark"] .page .stat b{color:#f0f5fa}
+body[data-theme="dark"] .page .stat span{color:#bdcbd8}
+@media(max-width:800px){
+ .page .pageTitle{font-size:20px;margin-bottom:15px;padding-bottom:11px}
+ .page .card{padding:15px;margin:11px 0;border-radius:12px}
+ .page .item{padding:12px;margin:8px 0}
+ .page .grid{gap:9px}
+ .page .stat{padding:12px}
+ .page .stat b{font-size:24px}
+ .page .row{gap:8px}
+ .page .row>button{min-height:39px}
+ .page .actions{gap:7px}
+ .page .actions button{flex:1 1 auto;min-width:105px}
+}
+@media(max-width:800px){:root{--ft-safe-top:max(env(safe-area-inset-top),50px)}.top{height:calc(64px + var(--ft-safe-top));padding-top:var(--ft-safe-top)}.overlay.open{inset:calc(64px + var(--ft-safe-top)) 0 env(safe-area-inset-bottom)}#sidebar.side{position:fixed;top:calc(64px + var(--ft-safe-top));right:auto;bottom:env(safe-area-inset-bottom);left:0;height:auto;max-height:none;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:22px;background:#10243b}}@media(min-width:801px){#sidebar.side{position:sticky;top:64px;height:auto;min-height:calc(100vh - 64px);align-self:stretch;background:#10243b}}
+@media(prefers-reduced-motion:reduce){.page{animation:none}.page button{transition:none}}
+
+/* Menu latéral : fond bleu marine uniforme, sans fondu ni masque */
+#sidebar.side{background-color:#10243b!important;background-image:none!important;mask-image:none!important;-webkit-mask-image:none!important}
+#sidebar.side::before,#sidebar.side::after{content:none!important;background:none!important}
+
+#sidebar.side{background:#10243b!important;background-color:#10243b!important;background-image:none!important;box-shadow:none!important;mask:none!important;-webkit-mask:none!important}
+#sidebar.side::before,#sidebar.side::after{background:none!important;box-shadow:none!important;mask:none!important;-webkit-mask:none!important}
+</style>
 </head><body>
 <section id="login" class="loginScreen">
   <div class="loginBrand">
@@ -181,8 +265,8 @@ const date=v=>v?new Date(v).toLocaleDateString("fr-FR"):"—";
 const statusLabel=s=>({active:"En service",out_of_service:"Hors service",removed:"Retiré",open:"Ouverte",in_progress:"En cours",resolved:"Résolue",completed:"Terminée",pending:"En attente",failed:"Échec"}[s]||s||"—");
 function msg(id,t){if($(id))$(id).textContent=t}
 async function firetrackLogin(){const button=document.querySelector('#login button');try{if(!db){msg("loginMsg","Le module de connexion ne s’est pas chargé. Actualise la page.");return}const username=$("username").value.trim(),password=$("password").value;if(!username||!password){msg("loginMsg","Saisis ton identifiant et ton mot de passe.");return}if(button){button.disabled=true;button.textContent="Connexion…"}msg("loginMsg","Connexion en cours…");const r=await db.functions.invoke("firetrack-admin",{body:{action:"login",username,password}});if(r.error)throw new Error(r.error.message||"Connexion refusée.");if(r.data?.error)throw new Error(r.data.error);if(!r.data?.session)throw new Error("Réponse de connexion invalide.");const saved=await db.auth.setSession({access_token:r.data.session.access_token,refresh_token:r.data.session.refresh_token});if(saved.error)throw saved.error;await start(r.data.user)}catch(e){msg("loginMsg","Connexion refusée : "+(e?.message||String(e)))}finally{if(button){button.disabled=false;button.textContent="Se connecter"}}}
-async function start(u){initTheme();user=u;let r=await db.from("profiles").select("*").eq("id",u.id).single();if(r.error){alert("Profil FIRETRACK introuvable : "+r.error.message);return}profile=r.data;$("login").classList.add("hidden");$("app").classList.remove("hidden");msg("welcome","Bienvenue, "+(profile.full_name||profile.username||""));msg("topRole",manager()?"Responsable":"Agent");msg("pUsername",profile.username||"—");msg("pRole",manager()?"Responsable":"Agent");$("pName").value=profile.full_name||"";if(manager()){["adminNav","managerInventory","buildingForm","maintenanceForm","addMaintenance"].forEach(id=>$(id).classList.remove("hidden"));}await loadAssignableUsers();await refresh();await loadPrefs();await loadNotifications();if(manager())await loadAdmin();const deepLinkExt=new URLSearchParams(location.search).get("ext");if(deepLinkExt){const linked=exts.find(e=>e.qr_code===deepLinkExt||e.id===deepLinkExt);if(linked){if(linked.status==="active")setTimeout(()=>beginCheckFor(linked.id),250);else{tab("inventory");setTimeout(()=>showExtDetail(linked.id),250)}}}}
-async function loadAssignableUsers(){const r=await db.from("profiles").select("id,full_name,role").order("full_name");if(!r.error)users=r.data||[];const select=$("aAssignedTo");if(select)select.innerHTML='<option value="">À attribuer</option>'+users.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.full_name||"Utilisateur")+(p.role==="manager"?" — Responsable":" — Agent")+'</option>').join("")}
+async function start(u){initTheme();user=u;let r=await db.from("profiles").select("*").eq("id",u.id).single();if(r.error||!r.data||r.data.is_active!==true){await db.auth.signOut();$("app").classList.add("hidden");$("login").classList.remove("hidden");msg("loginMsg","Ce compte n’est plus actif. Contacte un responsable.");return}profile=r.data;$("login").classList.add("hidden");$("app").classList.remove("hidden");msg("welcome","Bienvenue, "+(profile.full_name||profile.username||""));msg("topRole",manager()?"Responsable":"Agent");msg("pUsername",profile.username||"—");msg("pRole",manager()?"Responsable":"Agent");$("pName").value=profile.full_name||"";if(manager()){["adminNav","managerInventory","buildingForm","maintenanceForm","addMaintenance"].forEach(id=>$(id).classList.remove("hidden"));}await loadAssignableUsers();await refresh();await loadPrefs();await loadNotifications();if(manager())await loadAdmin();const deepLinkExt=new URLSearchParams(location.search).get("ext");if(deepLinkExt){const linked=exts.find(e=>e.qr_code===deepLinkExt||e.id===deepLinkExt);if(linked){if(linked.status==="active")setTimeout(()=>beginCheckFor(linked.id),250);else{tab("inventory");setTimeout(()=>showExtDetail(linked.id),250)}}}}
+async function loadAssignableUsers(){const r=await db.from("profiles").select("id,full_name,role").eq("is_active",true).order("full_name");if(!r.error)users=r.data||[];const select=$("aAssignedTo");if(select)select.innerHTML='<option value="">À attribuer</option>'+users.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.full_name||"Utilisateur")+(p.role==="manager"?" — Responsable":" — Agent")+'</option>').join("")}
 async function logout(){await db.auth.signOut();location.reload()}
 function toggleMenu(){$("sidebar").classList.toggle("open");$("overlay").classList.toggle("open")}
 function ensurePageBackButton(id){if(id==="home")return;const page=$(id);if(!page||page.querySelector(":scope > .pageBack"))return;const wrap=document.createElement("div");wrap.className="row pageBack";wrap.style.margin="0 0 12px";const button=document.createElement("button");button.className="secondary";button.type="button";button.textContent="← Retour";button.onclick=goBack;wrap.appendChild(button);page.insertBefore(wrap,page.firstChild)}
@@ -242,9 +326,9 @@ function initTheme(){setTheme(localStorage.getItem("firetrack-theme")||"light")}
 function settingValueText(v){if(v===null||v===undefined)return "Non renseigné";if(typeof v==="boolean")return v?"Activé":"Désactivé";if(Array.isArray(v))return v.map(x=>typeof x==="object"?JSON.stringify(x):String(x)).join(" · ")||"Aucune valeur";if(typeof v==="object")return Object.entries(v).map(([k,val])=>k.replace(/[_-]/g," ")+" : "+(val===null?"—":typeof val==="boolean"?(val?"Oui":"Non"):typeof val==="object"?JSON.stringify(val):String(val))).join(" · ")||"Aucune valeur";return String(v)}
 async function loadAdmin(){let settings=await db.from("app_settings").select("*");$("managerPrefs").innerHTML=(settings.data||[]).map(x=>'<div class="item"><strong>'+esc(String(x.setting_key||"Paramètre").replace(/[_-]/g," "))+'</strong><div class="settingValue">'+esc(settingValueText(x.setting_value))+'</div></div>').join("")||'<p class="muted">Aucun réglage général enregistré.</p>';await loadFiretrackUsers();renderTypes()}
 async function adminRequest(payload){const r=await db.functions.invoke("firetrack-admin",{body:payload});if(r.error){let detail="",raw="";try{const ctx=r.error.context;if(ctx&&typeof ctx.clone==="function"){raw=await ctx.clone().text();try{const body=JSON.parse(raw);detail=body.error||body.message||""}catch(e){detail=raw}}else if(ctx&&typeof ctx==="object"){detail=ctx.error||ctx.message||JSON.stringify(ctx)}}catch(e){detail="Lecture du détail impossible : "+e.message}const status=r.error.context?.status;throw new Error(detail||("Erreur serveur ("+(status||r.error.name||"inconnue")+") : "+r.error.message))}if(r.data&&r.data.error)throw new Error(r.data.error);return r.data}
-async function loadFiretrackUsers(){try{const data=await adminRequest({action:"list"});users=data.users||[];$("usersList").innerHTML=users.map(p=>'<div class="item"><strong>'+esc(p.full_name||"Nom non renseigné")+'</strong><p class="muted">Identifiant : <strong>'+esc(p.username||"Non défini")+'</strong></p><span class="tag '+(p.role==="manager"?"orange":"grey")+'">'+(p.role==="manager"?"Responsable":"Agent")+'</span>'+(p.id===user.id?'<p class="muted">Ton compte</p>':'<label>Modifier le rôle</label><select data-user-id="'+esc(p.id)+'" onchange="changeUserRole(this.dataset.userId,this.value)"><option value="agent" '+(p.role==="agent"?"selected":"")+'>Agent</option><option value="manager" '+(p.role==="manager"?"selected":"")+'>Responsable</option></select>')+'</div>').join("")||'<p class="empty">Aucun compte.</p>'}catch(e){$("usersList").innerHTML='<p class="notice">Impossible de charger les comptes : '+esc(e.message)+'</p>'}}
-async function createFiretrackUser(){if(!manager())return;const payload={action:"create",full_name:$("newUserName").value.trim(),username:$("newUserUsername").value.trim(),password:$("newUserPassword").value,role:$("newUserRole").value};msg("userCreateMsg","Création du compte…");try{await adminRequest(payload);["newUserName","newUserUsername","newUserPassword"].forEach(id=>$(id).value="");msg("userCreateMsg","Compte créé avec succès.");await loadFiretrackUsers()}catch(e){msg("userCreateMsg","Erreur : "+e.message)}}
+async function loadFiretrackUsers(){try{const data=await adminRequest({action:"list"});users=data.users||[];$("usersList").innerHTML=users.map(p=>'<div class="item"><strong>'+esc(p.full_name||"Nom non renseigné")+'</strong><p class="muted">Identifiant : <strong>'+esc(p.username||"Non défini")+'</strong></p><span class="tag '+(p.role==="manager"?"orange":"grey")+'">'+(p.role==="manager"?"Responsable":"Agent")+'</span>'+(p.id===user.id?'<p class="muted">Ton compte</p>':'<label>Modifier le rôle</label><select data-user-id="'+esc(p.id)+'" onchange="changeUserRole(this.dataset.userId,this.value)"><option value="agent" '+(p.role==="agent"?"selected":"")+'>Agent</option><option value="manager" '+(p.role==="manager"?"selected":"") +'>Responsable</option></select><button class="danger" style="margin-top:8px;width:100%" data-user-id="'+esc(p.id)+'" data-username="'+esc(p.username||p.full_name||"ce compte")+'" onclick="deleteFiretrackUser(this.dataset.userId,this.dataset.username)">Supprimer le compte</button>')+'</div>').join("")||'<p class="empty">Aucun compte actif.</p>'}catch(e){$("usersList").innerHTML='<p class="notice">Impossible de charger les comptes : '+esc(e.message)+'</p>'}}async function createFiretrackUser(){if(!manager())return;const payload={action:"create",full_name:$("newUserName").value.trim(),username:$("newUserUsername").value.trim(),password:$("newUserPassword").value,role:$("newUserRole").value};msg("userCreateMsg","Création du compte…");try{await adminRequest(payload);["newUserName","newUserUsername","newUserPassword"].forEach(id=>$(id).value="");msg("userCreateMsg","Compte créé avec succès.");await loadFiretrackUsers()}catch(e){msg("userCreateMsg","Erreur : "+e.message)}}
 async function changeUserRole(id,role){if(!manager())return;try{await adminRequest({action:"role",user_id:id,role});alert("Rôle mis à jour.");await loadFiretrackUsers()}catch(e){alert("Impossible de modifier le rôle : "+e.message);await loadFiretrackUsers()}}
+async function deleteFiretrackUser(id,username){if(!manager()||!id)return;if(!confirm("Supprimer le compte de "+username+" ? Cette personne ne pourra plus se connecter. Les anciens contrôles et l’historique seront conservés."))return;try{await adminRequest({action:"delete",user_id:id});alert("Compte supprimé. L’historique a été conservé.");await loadFiretrackUsers();await loadAssignableUsers()}catch(e){alert("Impossible de supprimer le compte : "+e.message)}}
 function renderTypes(){$("typesList").innerHTML=types.map(t=>'<div class="item"><strong>'+esc(t.name)+'</strong><span class="tag '+(t.active?"":"grey")+'">'+(t.active?"Actif":"Inactif")+'</span></div>').join("")||'<p class="empty">Aucun type.</p>'}
 async function addType(){if(!manager())return;let name=$("newType").value.trim();if(!name)return;let r=await db.from("extinguisher_types").insert({name,active:true});if(r.error)return alert(r.error.message);$("newType").value="";await refresh();await loadAdmin()}
 if(db){db.auth.getSession().then(r=>{if(r.data.session)start(r.data.session.user)}).catch(e=>msg("loginMsg","Connexion indisponible : "+e.message));}else{msg("loginMsg","Le module de connexion ne s’est pas chargé. Actualise la page.");}
@@ -266,83 +350,3 @@ if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.ser
   }, {passive:false});
 })();
 </script></body></html>
-<style>
-/* Identité FIRETRACK : signalétique incendie, cohérente avec l'application */
-.loginBrand{background:linear-gradient(145deg,#10243b 0%,#183c56 72%,#1b604d 145%)}
-.loginBrand:before{border-style:dashed;opacity:.7}
-.brandMark{background:#ffffff0d;border:1px solid #ffffff55;color:#fff;font-size:27px;box-shadow:inset 0 0 0 4px #ffffff08}
-.brandRule{background:#2fb879;width:54px;height:4px}
-.brandEyebrow{color:#8fd5b4}
-.loginPanelInner h2{color:#102b43}
-.loginForm .loginSubmit{background:#176b52;box-shadow:0 4px 0 #0e503d}
-.loginForm .loginSubmit:hover{background:#1c795d}
-.loginSecurity>span{background:#e8f3ee;color:#176b52}
-.mobileBrand .brandMark{background:#10243b;box-shadow:inset 0 -3px 0 #176b52}
-.loginLegal{font-weight:650;letter-spacing:1px}
-@media(max-width:760px){
- .loginPanel{background:linear-gradient(180deg,#10243b 0,#173d55 115px,#f3f6f9 115px)}
- .loginPanelInner{border-top:4px solid #176b52}
- .mobileBrand{color:#102b43}
-}
-
-/* Cohérence des pages : titres, panneaux, formulaires et listes */
-.page{min-width:0;animation:ftPageIn .18s ease-out}
-@keyframes ftPageIn{from{opacity:.82;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-.page .pageTitle{display:flex;align-items:center;gap:10px;margin:3px 0 20px;padding:0 0 13px;border-bottom:1px solid #dfe7ee;color:#142c45;font-size:23px;font-weight:780;letter-spacing:-.45px;line-height:1.25}
-.page .card{border:1px solid #e4eaf0;border-radius:14px;padding:19px;margin:14px 0;box-shadow:0 4px 16px #152c4308}
-.page .card h3{font-size:16px;font-weight:750;letter-spacing:-.15px;color:#1c354e;margin:0 0 14px;line-height:1.35}
-.page .card>strong{font-size:15px;color:#1c354e}
-.page .muted{line-height:1.5}
-.page .item{border:1px solid #e2e9ef;border-radius:11px;padding:14px 15px;margin:9px 0;box-shadow:0 1px 4px #152c4305}
-.page .item strong{font-size:14px;line-height:1.4;color:#1d354d}
-.page .tag{vertical-align:middle;letter-spacing:.1px}
-.page label{font-size:12px;font-weight:750;letter-spacing:.1px;color:#43566b;margin:9px 0 5px}
-.page input:not([type=checkbox]),.page select,.page textarea{border:1px solid #d4dee8;border-radius:9px;background:#fbfcfe;padding:11px 12px;margin:5px 0 12px;min-height:43px;box-shadow:inset 0 1px 2px #172b4505;transition:border-color .15s,box-shadow .15s}
-.page input:focus,.page select:focus,.page textarea:focus{outline:none;border-color:#369477;box-shadow:0 0 0 3px #36947718}
-.page textarea{min-height:96px;line-height:1.5}
-.page .notice{border:1px solid #dce7ef;border-left:3px solid #3b8c76;background:#f3f7fa;border-radius:9px;line-height:1.5}
-.page .empty{border:1px dashed #d8e2eb;border-radius:10px;background:#f9fbfd;font-size:13px}
-.page .checkline{gap:12px;padding:12px 3px;border-bottom:1px solid #edf1f5}
-.page .checkline input{accent-color:#176b52;flex:0 0 19px}
-.page .checkline label{font-size:13px;font-weight:600;color:#40546a;line-height:1.4}
-.page button{transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
-.page button:active{transform:translateY(1px);filter:brightness(.96)}
-.page button:focus-visible{outline:3px solid #3c9b7b55;outline-offset:2px}
-.page .actions{padding-top:2px}
-.page .actions button{min-height:38px}
-.page .grid{gap:13px}
-.page .stat{border:1px solid #e1e9ef;background:linear-gradient(145deg,#f4f8fb,#eaf1f6);border-radius:12px;padding:15px}
-.page .stat b{font-size:27px;color:#173650;letter-spacing:-.5px}
-.page .stat span{font-size:12px;line-height:1.35;color:#64778b}
-.page .row{align-items:center;gap:10px}
-.page .row h3{margin-bottom:0}
-body[data-theme="dark"] .page .pageTitle{color:#edf4fa;border-color:#34475b}
-body[data-theme="dark"] .page .card{border-color:#34475b;box-shadow:none}
-body[data-theme="dark"] .page .card h3,body[data-theme="dark"] .page .card>strong,body[data-theme="dark"] .page .item strong{color:#e5edf5}
-body[data-theme="dark"] .page .item{border-color:#34475b;box-shadow:none}
-body[data-theme="dark"] .page input:not([type=checkbox]),body[data-theme="dark"] .page select,body[data-theme="dark"] .page textarea{background:#142231;border-color:#40546a;color:#e6edf5}
-body[data-theme="dark"] .page label,body[data-theme="dark"] .page .checkline label{color:#c4d1de}
-body[data-theme="dark"] .page .notice{background:#223548;border-color:#3b5267;color:#dce8f3}
-body[data-theme="dark"] .page .empty{background:#182737;border-color:#40546a;color:#b9c7d5}
-body[data-theme="dark"] .page .stat{background:linear-gradient(145deg,#24384b,#1c2d3e);border-color:#3a5065}
-body[data-theme="dark"] .page .stat b{color:#f0f5fa}
-body[data-theme="dark"] .page .stat span{color:#bdcbd8}
-@media(max-width:800px){
- .page .pageTitle{font-size:20px;margin-bottom:15px;padding-bottom:11px}
- .page .card{padding:15px;margin:11px 0;border-radius:12px}
- .page .item{padding:12px;margin:8px 0}
- .page .grid{gap:9px}
- .page .stat{padding:12px}
- .page .stat b{font-size:24px}
- .page .row{gap:8px}
- .page .row>button{min-height:39px}
- .page .actions{gap:7px}
- .page .actions button{flex:1 1 auto;min-width:105px}
-}
-@media(max-width:800px){:root{--ft-safe-top:max(env(safe-area-inset-top),50px)}.top{height:calc(64px + var(--ft-safe-top));padding-top:var(--ft-safe-top)}.overlay.open{inset:calc(64px + var(--ft-safe-top)) 0 env(safe-area-inset-bottom)}#sidebar.side{position:fixed;top:calc(64px + var(--ft-safe-top));right:auto;bottom:env(safe-area-inset-bottom);left:0;height:auto;max-height:none;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:22px;background:#10243b}}@media(min-width:801px){#sidebar.side{position:sticky;top:64px;height:auto;min-height:calc(100vh - 64px);align-self:stretch;background:#10243b}}
-@media(prefers-reduced-motion:reduce){.page{animation:none}.page button{transition:none}}
-
-/* Menu latéral : fond bleu marine uniforme, sans fondu ni masque */
-#sidebar.side{background-color:#10243b!important;background-image:none!important;mask-image:none!important;-webkit-mask-image:none!important}
-#sidebar.side::before,#sidebar.side::after{content:none!important;background:none!important}
-</style>
