@@ -175,6 +175,37 @@ body[data-theme="dark"] .page .stat span{color:#bdcbd8}
 
 #sidebar.side{background:#10243b!important;background-color:#10243b!important;background-image:none!important;box-shadow:none!important;mask:none!important;-webkit-mask:none!important}
 #sidebar.side::before,#sidebar.side::after{background:none!important;box-shadow:none!important;mask:none!important;-webkit-mask:none!important}
+
+/* Correctif ciblé : suppression de tout voile clair au-dessus du bandeau et du menu */
+.top{
+  background:#10243b!important;
+  background-color:#10243b!important;
+  background-image:none!important;
+  opacity:1!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.top::before,.top::after,
+#sidebar.side::before,#sidebar.side::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  box-shadow:none!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#sidebar.side,.side{
+  background:#10243b!important;
+  background-color:#10243b!important;
+  background-image:none!important;
+  opacity:1!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
 </style>
 </head><body>
 <section id="login" class="loginScreen">
