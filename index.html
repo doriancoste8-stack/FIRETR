@@ -3,91 +3,143 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101c2c">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#172b45">
 <title>FIRETRACK</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{font-family:Arial,sans-serif;color:#172235;background:#f2f5f9}
+:root{font-family:Arial,sans-serif;color:#172b45;background:#f3f6fa}
 *{box-sizing:border-box}
 body{margin:0}
-header{background:#101c2c;color:white;padding:22px 18px}
-header h1{margin:0;font-size:25px;letter-spacing:2px}
-header p{margin:6px 0 0;color:#bdc9d8;font-size:13px}
-main{max-width:760px;margin:auto;padding:16px}
-.card{background:white;border-radius:14px;padding:17px;margin:14px 0;box-shadow:0 2px 10px #17223512}
-h2{font-size:19px;margin:0 0 14px}
-input,select,textarea{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccd5df;border-radius:8px;font-size:16px;background:white}
-button{border:0;border-radius:9px;padding:12px 15px;background:#176b52;color:white;font-weight:bold;font-size:15px;margin:4px 3px 4px 0}
-button.secondary{background:#e6edf4;color:#172235}
+button,input,select,textarea{font:inherit}
+button{border:0;border-radius:9px;padding:12px 15px;background:#176b52;color:white;font-weight:bold;cursor:pointer}
+button.secondary{background:#e8eef5;color:#172b45}
 button.danger{background:#b83232}
+input,select,textarea{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccd5df;border-radius:9px;font-size:16px;background:white}
+textarea{min-height:90px}
+.hidden{display:none!important}
+#login{max-width:430px;margin:12vh auto;padding:25px;background:white;border-radius:18px;box-shadow:0 5px 25px #0001}
+#login h1{margin-top:0;color:#172b45}
+#app{min-height:100vh}
+.topbar{height:65px;background:#172b45;color:white;display:flex;align-items:center;padding:0 16px;gap:14px;position:sticky;top:0;z-index:5}
+.topbar h1{font-size:19px;letter-spacing:2px;margin:0;flex:1}
+.menu-btn{background:#294563;font-size:22px;padding:7px 13px}
+.layout{display:flex;min-height:calc(100vh - 65px)}
+.sidebar{width:265px;background:#172b45;color:white;padding:18px 12px;flex-shrink:0}
+.side-label{font-size:11px;color:#9eb0c5;font-weight:bold;letter-spacing:1px;padding:15px 12px 7px}
+.nav-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;color:#e4ebf3;margin:3px 0;padding:13px;border-radius:9px;font-weight:normal}
+.nav-btn.active,.nav-btn:hover{background:#294563;color:white}
+.nav-btn span:first-child{width:23px;text-align:center;font-size:18px}
+.content{flex:1;min-width:0;max-width:1100px;margin:auto;padding:22px;width:100%}
+.page-title{font-size:23px;margin:0 0 18px}
+.card{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 12px #172b4510}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{background:#edf3f8;padding:17px;border-radius:12px}
+.stat b{display:block;font-size:29px;margin-bottom:5px}
 .small{font-size:13px;color:#687789}
-.item{border:1px solid #e0e6ed;border-radius:10px;padding:12px;margin:9px 0}
-.item strong{display:block;margin-bottom:5px}
-.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#e5f5ed;color:#176b52;font-size:12px}
+.item{border:1px solid #e0e6ed;border-radius:10px;padding:13px;margin:10px 0;background:white}
+.item strong{display:block;margin-bottom:6px}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#e5f5ed;color:#176b52;font-size:12px}
 .tag.red{background:#fde8e8;color:#a52222}
-.hidden{display:none}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#edf3f8;border-radius:10px;padding:13px}
-.stat b{display:block;font-size:25px}
-nav{display:flex;flex-wrap:wrap;gap:5px}
-nav button{flex:1;min-width:100px}
-hr{border:0;border-top:1px solid #e4e9ef;margin:15px 0}
+.tag.orange{background:#fff0d8;color:#9a5a00}
+hr{border:0;border-top:1px solid #e4e9ef;margin:17px 0}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.actions button{flex:1}
+.overlay{display:none}
+@media(max-width:760px){
+ .sidebar{position:fixed;z-index:10;top:65px;bottom:0;left:0;width:280px;overflow-y:auto;transform:translateX(-105%);transition:transform .2s}
+ .sidebar.open{transform:translateX(0)}
+ .overlay.open{display:block;position:fixed;inset:65px 0 0;background:#0007;z-index:9}
+ .content{padding:13px}
+ .card{padding:15px}
+}
+@media(min-width:761px){
+ .menu-btn{display:none}
+ .sidebar{position:sticky;top:65px;height:calc(100vh - 65px)}
+}
 </style>
 </head>
 <body>
-<header>
+
+<section id="login">
 <h1>🔥 FIRETRACK</h1>
-<p>Gestion et contrôle des extincteurs</p>
-</header>
-<main>
-<section id="login" class="card">
+<p class="small">Gestion et contrôle des extincteurs</p>
 <h2>Connexion</h2>
-<p class="small">Connectez-vous avec votre compte FIRETRACK.</p>
 <input id="email" type="email" placeholder="Adresse e-mail">
 <input id="password" type="password" placeholder="Mot de passe">
-<button onclick="login()">Se connecter</button>
+<button style="width:100%" onclick="login()">Se connecter</button>
 <p id="loginMsg" class="small"></p>
 </section>
 
-<section id="app" class="hidden">
+<div id="app" class="hidden">
+<header class="topbar">
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+<h1>🔥 FIRETRACK</h1>
+<span id="topRole" class="small" style="color:#dce7f2"></span>
+</header>
+
+<div class="layout">
+<aside id="sidebar" class="sidebar">
+<div class="side-label">MENU PRINCIPAL</div>
+<button class="nav-btn active" data-tab="home" onclick="showTab('home')"><span>⌂</span>Accueil</button>
+<button class="nav-btn" data-tab="inventory" onclick="showTab('inventory')"><span>🧯</span>Extincteurs</button>
+<button class="nav-btn" data-tab="checks" onclick="showTab('checks')"><span>☑</span>Contrôles</button>
+<button class="nav-btn" data-tab="anomalies" onclick="showTab('anomalies')"><span>⚠</span>Anomalies</button>
+<button class="nav-btn" data-tab="buildings" onclick="showTab('buildings')"><span>▦</span>Bâtiments et zones</button>
+<button class="nav-btn" data-tab="history" onclick="showTab('history')"><span>◷</span>Historique</button>
+<button class="nav-btn" data-tab="reports" onclick="showTab('reports')"><span>▤</span>Rapports et statistiques</button>
+
+<div id="adminMenu" class="hidden">
+<div class="side-label">ADMINISTRATION</div>
+<button class="nav-btn" data-tab="users" onclick="showTab('users')"><span>♙</span>Utilisateurs et agents</button>
+<button class="nav-btn" data-tab="settings" onclick="showTab('settings')"><span>⚙</span>Paramètres</button>
+</div>
+
+<div class="side-label">MON COMPTE</div>
+<button class="nav-btn" data-tab="profile" onclick="showTab('profile')"><span>●</span>Mon profil</button>
+<button class="nav-btn" onclick="logout()"><span>↪</span>Déconnexion</button>
+</aside>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<main class="content">
+
+<section id="home" class="page">
+<h2 class="page-title">Tableau de bord</h2>
 <div class="card">
 <strong id="welcome">Bienvenue</strong>
-<p class="small" id="role"></p>
-<button class="secondary" onclick="logout()">Déconnexion</button>
+<p class="small">Vue générale de la sécurité incendie du site.</p>
 </div>
-
-<nav>
-<button onclick="showTab('home')">Accueil</button>
-<button onclick="showTab('inventory')">Extincteurs</button>
-<button onclick="showTab('checks')">Contrôles</button>
-<button onclick="showTab('anomalies')">Anomalies</button>
-<button id="adminTab" class="hidden" onclick="showTab('admin')">Administration</button>
-</nav>
-
-<section id="home" class="card">
-<h2>Tableau de bord</h2>
 <div class="grid">
 <div class="stat"><b id="total">0</b><span>Extincteurs</span></div>
-<div class="stat"><b id="bad">0</b><span>Anomalies</span></div>
-<div class="stat"><b id="done">0</b><span>Contrôles réalisés</span></div>
+<div class="stat"><b id="bad">0</b><span>Anomalies ouvertes</span></div>
+<div class="stat"><b id="done">0</b><span>Contrôles enregistrés</span></div>
 <div class="stat"><b id="buildingsCount">0</b><span>Bâtiments</span></div>
 </div>
-<hr>
-<p class="small">Pensez à effectuer les contrôles internes chaque semaine.</p>
+<div class="card">
+<h3>Rappel hebdomadaire</h3>
+<p>Effectuez les vérifications internes des extincteurs chaque semaine et enregistrez les résultats dans FIRETRACK.</p>
+<button onclick="showTab('checks')">Accéder aux contrôles</button>
+</div>
+<div class="card">
+<h3>Dernières informations</h3>
+<div id="homeInfo" class="small">Chargement...</div>
+</div>
 </section>
 
-<section id="inventory" class="card hidden">
-<h2>Inventaire des extincteurs</h2>
-<input id="search" placeholder="Rechercher un extincteur..." oninput="renderInventory()">
+<section id="inventory" class="page hidden">
+<h2 class="page-title">🧯 Inventaire des extincteurs</h2>
+<input id="search" placeholder="Rechercher par code, lieu ou bâtiment..." oninput="renderInventory()">
 <div id="inventoryList"></div>
 </section>
 
-<section id="checks" class="card hidden">
-<h2>Effectuer un contrôle</h2>
+<section id="checks" class="page hidden">
+<h2 class="page-title">☑ Contrôles hebdomadaires</h2>
+<div class="card">
+<h3>Effectuer un contrôle</h3>
 <label>Extincteur</label>
 <select id="checkExt"></select>
-<label>État général</label>
+<label>Résultat</label>
 <select id="checkResult">
 <option value="ok">Conforme</option>
 <option value="anomaly">Anomalie constatée</option>
@@ -95,27 +147,100 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:15px 0}
 <label>Observations</label>
 <textarea id="checkComment" placeholder="Observations éventuelles"></textarea>
 <button onclick="saveCheck()">Enregistrer le contrôle</button>
-<div id="checksList"></div>
+</div>
+<div class="card"><h3>Derniers contrôles</h3><div id="checksList"></div></div>
 </section>
 
-<section id="anomalies" class="card hidden">
-<h2>Signaler une anomalie</h2>
+<section id="anomalies" class="page hidden">
+<h2 class="page-title">⚠ Anomalies</h2>
+<div class="card">
+<h3>Signaler une anomalie</h3>
+<label>Extincteur concerné</label>
 <select id="anomalyExt"></select>
 <input id="anomalyTitle" placeholder="Titre de l'anomalie">
 <textarea id="anomalyDesc" placeholder="Description et détails"></textarea>
 <button onclick="saveAnomaly()">Envoyer le signalement</button>
-<hr>
-<h2>Signalements</h2>
-<div id="anomalyList"></div>
+</div>
+<div class="card"><h3>Signalements</h3><div id="anomalyList"></div></div>
 </section>
 
-<section id="admin" class="card hidden">
-<h2>Administration</h2>
+<section id="buildings" class="page hidden">
+<h2 class="page-title">▦ Bâtiments et zones</h2>
+<div id="buildingList"></div>
+<div id="buildingAdmin" class="card hidden">
 <h3>Ajouter un bâtiment</h3>
 <input id="buildingName" placeholder="Nom du bâtiment">
 <input id="buildingAddress" placeholder="Adresse (facultatif)">
 <button onclick="addBuilding()">Ajouter le bâtiment</button>
-<hr>
+</div>
+</section>
+
+<section id="history" class="page hidden">
+<h2 class="page-title">◷ Historique</h2>
+<div class="card">
+<h3>Historique des contrôles</h3>
+<div id="historyList"></div>
+</div>
+</section>
+
+<section id="reports" class="page hidden">
+<h2 class="page-title">▤ Rapports et statistiques</h2>
+<div class="card">
+<h3>État du parc</h3>
+<div class="grid">
+<div class="stat"><b id="reportTotal">0</b><span>Extincteurs recensés</span></div>
+<div class="stat"><b id="reportBad">0</b><span>Anomalies ouvertes</span></div>
+<div class="stat"><b id="reportDone">0</b><span>Contrôles chargés</span></div>
+<div class="stat"><b id="reportBuildings">0</b><span>Bâtiments</span></div>
+</div>
+<p class="small">Ces indicateurs sont calculés à partir des données enregistrées dans FIRETRACK.</p>
+</div>
+</section>
+
+<section id="users" class="page hidden">
+<h2 class="page-title">♙ Utilisateurs et agents</h2>
+<div class="card">
+<h3>Gestion des accès</h3>
+<p>Les comptes sont créés dans l'espace d'authentification Supabase. Chaque compte doit posséder un profil FIRETRACK.</p>
+<p>Les rôles actuellement reconnus sont :</p>
+<div class="item"><strong>Responsable</strong>Administration et accès aux paramètres.</div>
+<div class="item"><strong>Agent</strong>Consultation, contrôles et signalements.</div>
+<p class="small">La création de comptes et la modification des rôles seront ajoutées dans une prochaine étape sécurisée.</p>
+</div>
+</section>
+
+<section id="settings" class="page hidden">
+<h2 class="page-title">⚙ Paramètres</h2>
+<div class="card">
+<h3>Configuration générale</h3>
+<p><strong>Nom :</strong> FIRETRACK</p>
+<p><strong>Application :</strong> Gestion des extincteurs</p>
+<p><strong>Fréquence prévue :</strong> Hebdomadaire</p>
+</div>
+<div class="card">
+<h3>Organisation des contrôles</h3>
+<p>Les contrôles internes sont prévus chaque semaine.</p>
+<p class="small">La fréquence affichée ici est informative. Elle ne modifie pas automatiquement les obligations réglementaires ou les échéances des appareils.</p>
+</div>
+<div class="card">
+<h3>Gestion du site</h3>
+<p>Les bâtiments et les extincteurs peuvent être ajoutés depuis la rubrique Bâtiments et zones et les fonctions d'administration.</p>
+</div>
+</section>
+
+<section id="profile" class="page hidden">
+<h2 class="page-title">● Mon profil</h2>
+<div class="card">
+<p><strong>Nom :</strong> <span id="profileName"></span></p>
+<p><strong>E-mail :</strong> <span id="profileEmail"></span></p>
+<p><strong>Rôle :</strong> <span id="profileRole"></span></p>
+<button class="danger" onclick="logout()">Se déconnecter</button>
+</div>
+</section>
+
+<section id="admin" class="page hidden">
+<h2 class="page-title">Administration</h2>
+<div class="card">
 <h3>Ajouter un extincteur</h3>
 <input id="extCode" placeholder="Numéro / code extincteur">
 <select id="extBuilding"></select>
@@ -126,17 +251,23 @@ hr{border:0;border-top:1px solid #e4e9ef;margin:15px 0}
 </select>
 <input id="extCapacity" placeholder="Capacité (ex : 6 kg)">
 <button onclick="addExtinguisher()">Ajouter l'extincteur</button>
+</div>
 </section>
-</section>
+
 </main>
+</div>
+</div>
 
 <script>
 const SUPABASE_URL="https://xsobixwjejsaucwmhbwv.supabase.co";
 const SUPABASE_KEY="sb_publishable_7Ch6KK0QcNucDG8Ihbsqdg_G7IRtl-g";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let currentUser=null, profile=null, extinguishers=[], buildings=[];
+
+let currentUser=null,profile=null,extinguishers=[],buildings=[],inspections=[],anomalies=[];
 
 function msg(id,text){document.getElementById(id).textContent=text}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
 async function login(){
  const email=document.getElementById('email').value.trim();
  const password=document.getElementById('password').value;
@@ -145,6 +276,7 @@ async function login(){
  if(error){msg('loginMsg',error.message);return}
  await startApp(data.user);
 }
+
 async function startApp(user){
  currentUser=user;
  const {data,error}=await db.from('profiles').select('*').eq('id',user.id).single();
@@ -152,39 +284,81 @@ async function startApp(user){
  profile=data;
  document.getElementById('login').classList.add('hidden');
  document.getElementById('app').classList.remove('hidden');
- document.getElementById('welcome').textContent=profile.full_name||user.email;
- document.getElementById('role').textContent=profile.role==='manager'?'Responsable':'Agent';
- if(profile.role==='manager')document.getElementById('adminTab').classList.remove('hidden');
+ document.getElementById('welcome').textContent='Bienvenue, '+(profile.full_name||user.email);
+ const role=profile.role==='manager'?'Responsable':'Agent';
+ msg('role',role);
+ msg('topRole',role);
+ msg('profileName',profile.full_name||'Non renseigné');
+ msg('profileEmail',user.email);
+ msg('profileRole',role);
+ if(profile.role==='manager'){
+  document.getElementById('adminMenu').classList.remove('hidden');
+  document.getElementById('buildingAdmin').classList.remove('hidden');
+  document.getElementById('admin').classList.remove('hidden');
+ }
  await refresh();
 }
-async function logout(){await db.auth.signOut();location.reload()}
-function showTab(id){
- ['home','inventory','checks','anomalies','admin'].forEach(x=>document.getElementById(x).classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
+
+async function logout(){
+ await db.auth.signOut();
+ location.reload();
 }
+
+function toggleMenu(){
+ document.getElementById('sidebar').classList.toggle('open');
+ document.getElementById('overlay').classList.toggle('open');
+}
+
+function showTab(id){
+ document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
+ const page=document.getElementById(id);
+ if(!page)return;
+ page.classList.remove('hidden');
+ document.querySelectorAll('.nav-btn[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));
+ document.getElementById('sidebar').classList.remove('open');
+ document.getElementById('overlay').classList.remove('open');
+}
+
 async function refresh(){
  const [e,b,c,a]=await Promise.all([
- db.from('extinguishers').select('*, buildings(name)').order('code'),
- db.from('buildings').select('*').order('name'),
- db.from('inspections').select('*').order('checked_at',{ascending:false}).limit(20),
- db.from('anomalies').select('*, extinguishers(code)').order('created_at',{ascending:false})
+  db.from('extinguishers').select('*, buildings(name)').order('code'),
+  db.from('buildings').select('*').order('name'),
+  db.from('inspections').select('*').order('checked_at',{ascending:false}).limit(100),
+  db.from('anomalies').select('*, extinguishers(code)').order('created_at',{ascending:false})
  ]);
- if(e.error||b.error||c.error||a.error){alert("Erreur de chargement des données.");return}
- extinguishers=e.data;buildings=b.data;
- document.getElementById('total').textContent=e.data.length;
- document.getElementById('bad').textContent=a.data.filter(x=>x.status!=='resolved').length;
- document.getElementById('done').textContent=c.data.length;
- document.getElementById('buildingsCount').textContent=b.data.length;
- renderInventory();fillSelects();renderChecks(c.data);renderAnomalies(a.data);
+ if(e.error||b.error||c.error||a.error){
+  alert("Erreur de chargement des données. Vérifiez les autorisations Supabase.");
+  return;
+ }
+ extinguishers=e.data||[];
+ buildings=b.data||[];
+ inspections=c.data||[];
+ anomalies=a.data||[];
+ const open=anomalies.filter(x=>x.status!=='resolved').length;
+ ['total','reportTotal'].forEach(id=>msg(id,extinguishers.length));
+ ['bad','reportBad'].forEach(id=>msg(id,open));
+ ['done','reportDone'].forEach(id=>msg(id,inspections.length));
+ ['buildingsCount','reportBuildings'].forEach(id=>msg(id,buildings.length));
+ msg('homeInfo',open+' anomalie(s) ouverte(s) actuellement.');
+ renderInventory();
+ fillSelects();
+ renderChecks();
+ renderAnomalies();
+ renderBuildings();
+ renderHistory();
 }
+
 function fillSelects(){
  ['checkExt','anomalyExt'].forEach(id=>{
- const s=document.getElementById(id);s.innerHTML='';
- extinguishers.forEach(x=>s.add(new Option(x.code+' — '+x.location,x.id)));
+  const s=document.getElementById(id);
+  s.innerHTML='';
+  extinguishers.forEach(x=>s.add(new Option(x.code+' — '+x.location,x.id)));
  });
- const b=document.getElementById('extBuilding');b.innerHTML='';
+ const b=document.getElementById('extBuilding');
+ b.innerHTML='';
  buildings.forEach(x=>b.add(new Option(x.name,x.id)));
 }
+
 function renderInventory(){
  const q=document.getElementById('search').value.toLowerCase();
  const list=extinguishers.filter(x=>(x.code+' '+x.location+' '+(x.buildings?.name||'')).toLowerCase().includes(q));
@@ -192,31 +366,40 @@ function renderInventory(){
  <div class="item"><strong>${esc(x.code)}</strong>
  ${esc(x.type)} ${esc(x.capacity||'')}<br>
  <span class="small">${esc(x.buildings?.name||'')} — ${esc(x.location)}</span><br>
- <span class="tag ${x.condition_status==='ok'?'':'red'}">${esc(x.condition_status)}</span>
+ <span class="tag ${x.condition_status==='ok'?'':'red'}">${esc(x.condition_status||'À vérifier')}</span>
  ${x.next_due?'<span class="small">Échéance : '+esc(x.next_due)+'</span>':''}</div>`).join('')||'<p class="small">Aucun extincteur trouvé.</p>';
 }
+
 async function saveCheck(){
  const id=document.getElementById('checkExt').value;
- if(!id){alert('Ajoutez d’abord un extincteur.');return}
+ if(!id)return alert('Ajoutez d’abord un extincteur.');
  const result=document.getElementById('checkResult').value;
  const comment=document.getElementById('checkComment').value;
  const {error}=await db.from('inspections').insert({extinguisher_id:id,checked_by:currentUser.id,result,comment});
  if(error){alert(error.message);return}
- if(result==='anomaly')await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
+ if(result==='anomaly'){
+  const update=await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
+  if(update.error)alert("Contrôle enregistré, mais mise à jour de l'état impossible : "+update.error.message);
+ }
  document.getElementById('checkComment').value='';
  alert('Contrôle enregistré.');
  await refresh();
 }
-function renderChecks(rows){
- document.getElementById('checksList').innerHTML='<hr><h3>Derniers contrôles</h3>'+rows.map(x=>`
+
+function renderChecks(){
+ document.getElementById('checksList').innerHTML=inspections.slice(0,10).map(x=>`
  <div class="item"><strong>${new Date(x.checked_at).toLocaleString('fr-FR')}</strong>
- ${x.result==='ok'?'Conforme':'Anomalie'} — ${esc(x.comment||'')}</div>`).join('');
+ ${x.result==='ok'?'Conforme':'Anomalie'} — ${esc(x.comment||'')}</div>`).join('')||'<p class="small">Aucun contrôle enregistré.</p>';
 }
+
 async function saveAnomaly(){
  const id=document.getElementById('anomalyExt').value;
  const title=document.getElementById('anomalyTitle').value.trim();
- if(!id||!title){alert('Choisissez un extincteur et indiquez un titre.');return}
- const {error}=await db.from('anomalies').insert({extinguisher_id:id,reported_by:currentUser.id,title,description:document.getElementById('anomalyDesc').value});
+ if(!id||!title)return alert('Choisissez un extincteur et indiquez un titre.');
+ const {error}=await db.from('anomalies').insert({
+  extinguisher_id:id,reported_by:currentUser.id,title,
+  description:document.getElementById('anomalyDesc').value
+ });
  if(error){alert(error.message);return}
  await db.from('extinguishers').update({condition_status:'anomaly'}).eq('id',id);
  document.getElementById('anomalyTitle').value='';
@@ -224,42 +407,75 @@ async function saveAnomaly(){
  alert('Anomalie signalée.');
  await refresh();
 }
-function renderAnomalies(rows){
- document.getElementById('anomalyList').innerHTML=rows.map(x=>`
+
+function renderAnomalies(){
+ document.getElementById('anomalyList').innerHTML=anomalies.map(x=>`
  <div class="item"><strong>${esc(x.title)}</strong>
  ${esc(x.extinguishers?.code||'')} — ${esc(x.description||'')}<br>
- <span class="tag red">${esc(x.status)}</span>
- ${profile.role==='manager'&&x.status!=='resolved'?`<button onclick="resolveAnomaly('${x.id}')">Clôturer</button>`:''}
+ <span class="tag red">${esc(x.status||'ouverte')}</span>
+ ${profile.role==='manager'&&x.status!=='resolved'?`<button onclick="resolveAnomaly('${esc(x.id)}')">Clôturer</button>`:''}
  </div>`).join('')||'<p class="small">Aucun signalement.</p>';
 }
+
 async function resolveAnomaly(id){
- const {error}=await db.from('anomalies').update({status:'resolved',resolved_at:new Date().toISOString(),resolved_by:currentUser.id}).eq('id',id);
+ const {error}=await db.from('anomalies').update({
+  status:'resolved',resolved_at:new Date().toISOString(),resolved_by:currentUser.id
+ }).eq('id',id);
  if(error){alert(error.message);return}
  await refresh();
 }
+
+function renderBuildings(){
+ document.getElementById('buildingList').innerHTML=buildings.map(b=>{
+  const count=extinguishers.filter(x=>x.building_id===b.id).length;
+  return `<div class="item"><strong>${esc(b.name)}</strong>
+  <span class="small">${esc(b.address||'Adresse non renseignée')}</span><br>
+  <span class="tag">${count} extincteur(s)</span></div>`;
+ }).join('')||'<p class="small">Aucun bâtiment enregistré.</p>';
+}
+
+function renderHistory(){
+ document.getElementById('historyList').innerHTML=inspections.map(x=>`
+ <div class="item"><strong>${new Date(x.checked_at).toLocaleString('fr-FR')}</strong>
+ Résultat : ${x.result==='ok'?'Conforme':'Anomalie'}<br>
+ ${esc(x.comment||'Aucune observation')}</div>`).join('')||'<p class="small">Aucun historique disponible.</p>';
+}
+
 async function addBuilding(){
  const name=document.getElementById('buildingName').value.trim();
  if(!name)return alert('Indiquez un nom.');
- const {error}=await db.from('buildings').insert({name,address:document.getElementById('buildingAddress').value});
+ const {error}=await db.from('buildings').insert({
+  name,address:document.getElementById('buildingAddress').value
+ });
  if(error){alert(error.message);return}
  document.getElementById('buildingName').value='';
  document.getElementById('buildingAddress').value='';
- await refresh();alert('Bâtiment ajouté.');
+ await refresh();
+ alert('Bâtiment ajouté.');
 }
+
 async function addExtinguisher(){
  const code=document.getElementById('extCode').value.trim();
  const building_id=document.getElementById('extBuilding').value;
  const location=document.getElementById('extLocation').value.trim();
  if(!code||!building_id||!location)return alert('Remplissez les champs obligatoires.');
- const {error}=await db.from('extinguishers').insert({code,building_id,location,type:document.getElementById('extType').value,capacity:document.getElementById('extCapacity').value});
+ const {error}=await db.from('extinguishers').insert({
+  code,building_id,location,
+  type:document.getElementById('extType').value,
+  capacity:document.getElementById('extCapacity').value
+ });
  if(error){alert(error.message);return}
  document.getElementById('extCode').value='';
  document.getElementById('extLocation').value='';
  document.getElementById('extCapacity').value='';
- await refresh();alert('Extincteur ajouté.');
+ await refresh();
+ alert('Extincteur ajouté.');
+ showTab('inventory');
 }
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-db.auth.getSession().then(({data})=>{if(data.session)startApp(data.session.user)});
+
+db.auth.getSession().then(({data})=>{
+ if(data.session)startApp(data.session.user);
+});
 </script>
 </body>
 </html>
