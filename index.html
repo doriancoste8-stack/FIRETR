@@ -45,6 +45,40 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
 @media(max-width:760px){.loginScreen{grid-template-columns:1fr;min-height:100svh;background:#f3f6f9}.loginBrand{display:none}.loginPanel{min-height:100svh;padding:30px 23px 22px;justify-content:center}.loginPanelInner{max-width:420px;background:#fff;border:1px solid #e7edf2;border-radius:18px;padding:28px 23px;box-shadow:0 12px 35px #17334d0d}.mobileBrand{display:flex;align-items:center;gap:11px;font-size:16px;letter-spacing:2px;font-weight:850;color:#17334d;margin-bottom:38px}.mobileBrand .brandMark{width:38px;height:38px;margin:0;background:#17334d;color:#fff;border:0;border-radius:11px;font-size:20px}.loginPanelInner h2{font-size:29px}.loginSubtitle{margin-bottom:26px}.loginLegal{margin-top:22px;text-align:center}.loginSecurity{padding-top:16px}}
 @media(min-width:761px) and (max-height:650px){.loginBrand{padding-top:28px;padding-bottom:28px}.brandFooter{margin-top:30px}.loginLegal{margin-top:28px}}
 </style>
+<style>
+/* Harmonisation visuelle des icônes et des commandes */
+.side{padding:18px 12px 22px}
+.side .group{padding:18px 12px 8px;font-size:10px;letter-spacing:1.55px}
+.side .nav{min-height:46px;height:auto;display:flex;align-items:center;gap:12px;margin:3px 0;padding:10px 13px;border:1px solid transparent;border-radius:11px;font-size:13px;line-height:1.3;letter-spacing:.05px;transition:background .16s ease,border-color .16s ease,color .16s ease}
+.side .nav i{width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center;border-radius:8px;background:#ffffff0b;color:#a9c2d6;font-size:0}
+.side .nav i svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.side .nav.active{background:#1b3a54;border-color:#31536d;color:#fff;box-shadow:inset 3px 0 0 #38b982}
+.side .nav.active i{background:#24614f;color:#83e0b5}
+.side .nav:hover:not(.active){background:#1b344b;border-color:#294760;color:#fff}
+.side .nav:hover:not(.active) i{color:#d7e9f5;background:#294760}
+.side .nav:focus-visible{outline:2px solid #62c99d;outline-offset:2px}
+.side #adminNav .group{margin-top:5px}
+.menu{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;padding:0;border-radius:10px;background:#294663}
+.menu svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+button:not(.nav):not(.loginSubmit){min-height:40px;padding:9px 14px;font-size:13px;line-height:1.25;border-radius:9px;white-space:normal}
+button.secondary,button.ghost,button.danger{font-weight:650}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:0 1 auto;min-width:108px;max-width:100%;min-height:38px;padding:9px 12px}
+.row{gap:10px}
+.row>button{flex:0 1 auto;min-width:0;max-width:100%}
+.row>input,.row>select{flex:1 1 170px;min-width:0}
+.card>button+.button,.card>.row{margin-top:8px}
+@media(max-width:800px){
+ .side{width:min(292px,86vw);padding:15px 12px 24px}
+ .side .nav{min-height:45px;padding:9px 12px;font-size:13px}
+ .actions{gap:8px}
+ .actions button{min-width:0;flex:0 1 auto}
+ .row>button{flex:1 1 auto}
+}
+@media(min-width:801px){
+ .side{width:264px;padding-left:13px;padding-right:13px}
+}
+</style>
 </head><body>
 <section id="login" class="loginScreen">
   <div class="loginBrand">
@@ -75,18 +109,18 @@ body[data-theme="dark"]{background:#101923;color:#e6edf5}body[data-theme="dark"]
     <div class="loginLegal">FIRETRACK <span>•</span> Gestion de la sécurité incendie</div>
   </div>
 </section>
-<div id="app" class="hidden"><header class="top"><button class="menu" onclick="toggleMenu()">☰</button><h1>🧯 FIRETRACK</h1><span id="topRole" class="muted" style="color:#dce7f2"></span></header><div class="layout">
+<div id="app" class="hidden"><header class="top"><button class="menu" onclick="toggleMenu()" aria-label="Ouvrir le menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><h1>🧯 FIRETRACK</h1><span id="topRole" class="muted" style="color:#dce7f2"></span></header><div class="layout">
 <aside id="sidebar" class="side"><div class="group">ESPACE DE TRAVAIL</div>
-<button class="nav active" data-tab="home" onclick="tab('home')"><i>⌂</i>Accueil</button>
-<button class="nav" data-tab="inventory" onclick="tab('inventory')"><i>🧯</i>Extincteurs</button>
-<button class="nav" data-tab="checks" onclick="tab('checks')"><i>☑</i>Contrôles internes</button>
-<button class="nav" data-tab="anomalies" onclick="tab('anomalies')"><i>⚠</i>Anomalies</button>
-<button class="nav" data-tab="maintenance" onclick="tab('maintenance')"><i>🔧</i>Maintenance</button>
-<button class="nav" data-tab="buildings" onclick="tab('buildings')"><i>▦</i>Bâtiments et zones</button>
-<button class="nav" data-tab="history" onclick="tab('history')"><i>◷</i>Historique</button>
-<button class="nav" data-tab="reports" onclick="tab('reports')"><i>▤</i>Rapports & exports</button>
-<div id="adminNav" class="hidden"><div class="group">ADMINISTRATION</div><button class="nav" data-tab="users" onclick="tab('users')"><i>♙</i>Agents & utilisateurs</button><button class="nav" data-tab="settings" onclick="tab('settings')"><i>⚙</i>Paramètres</button></div>
-<div class="group">MON ESPACE</div><button class="nav" data-tab="notifications" onclick="tab('notifications')"><i>♢</i>Notifications</button><button class="nav" data-tab="profile" onclick="tab('profile')"><i>●</i>Mon profil</button><button class="nav" onclick="logout()"><i>↪</i>Déconnexion</button>
+<button class="nav active" data-tab="home" onclick="tab('home')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></i>Accueil</button>
+<button class="nav" data-tab="inventory" onclick="tab('inventory')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6v3H9zM12 4V2h5M15 5l3 2-2 2M9 8h6v13H9zM7 11H5v5h4M12 11v3M11 2h2"/></svg></i>Extincteurs</button>
+<button class="nav" data-tab="checks" onclick="tab('checks')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12l2 2 5-5M8 17h8"/></svg></i>Contrôles internes</button>
+<button class="nav" data-tab="anomalies" onclick="tab('anomalies')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10.3 4.3-8 14A1.8 1.8 0 0 0 3.9 21h16.2a1.8 1.8 0 0 0 1.6-2.7l-8-14a1.9 1.9 0 0 0-3.4 0Z"/><path d="M12 9v5m0 3h.01"/></svg></i>Anomalies</button>
+<button class="nav" data-tab="maintenance" onclick="tab('maintenance')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a5 5 0 0 0-6.4 6.4L3 18l3 3 5.3-5.3a5 5 0 0 0 6.4-6.4L14 13l-3-3z"/></svg></i>Maintenance</button>
+<button class="nav" data-tab="buildings" onclick="tab('buildings')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 21V8h6v13M7 6h.01M17 6h.01M7 11h.01M17 11h.01"/></svg></i>Bâtiments et zones</button>
+<button class="nav" data-tab="history" onclick="tab('history')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i>Historique</button>
+<button class="nav" data-tab="reports" onclick="tab('reports')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h11l3 3v15H5zM15 3v4h4M8 11h8M8 15h8M8 18h5"/></svg></i>Rapports & exports</button>
+<div id="adminNav" class="hidden"><div class="group">ADMINISTRATION</div><button class="nav" data-tab="users" onclick="tab('users')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i>Agents & utilisateurs</button><button class="nav" data-tab="settings" onclick="tab('settings')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1 1.8-1.8 3.1-2.1-.5a8 8 0 0 1-1.7 1l-.5 2.1h-3.6l-.5-2.1a8 8 0 0 1-1.7-1l-2.1.5-1.8-3.1 1.1-1.8a8 8 0 0 1 0-2l-1.1-1.8 1.8-3.1 2.1.5a8 8 0 0 1 1.7-1l.5-2.1h3.6l.5 2.1a8 8 0 0 1 1.7 1l2.1-.5 1.8 3.1-1.1 1.8a8 8 0 0 1 0 2Z"/></svg></i>Paramètres</button></div>
+<div class="group">MON ESPACE</div><button class="nav" data-tab="notifications" onclick="tab('notifications')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></i>Notifications</button><button class="nav" data-tab="profile" onclick="tab('profile')"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i>Mon profil</button><button class="nav" onclick="logout()"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17 15 12 10 7M15 12H3M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg></i>Déconnexion</button>
 </aside><div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 <main class="main">
 <section id="home" class="page"><h2 class="pageTitle">Tableau de bord</h2><div class="card"><strong id="welcome">Bienvenue</strong><p class="muted">Vue d'ensemble du parc incendie et des actions à suivre.</p><div class="row"><button onclick="tab('checks')">Faire un contrôle</button><button class="secondary" onclick="tab('anomalies')">Voir les anomalies</button></div></div>
