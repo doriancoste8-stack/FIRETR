@@ -42,9 +42,9 @@
 <section id="profile" class="page hidden"><h2 class="pageTitle">● Mon profil</h2><div class="card"><label>Nom affiché</label><input id="pName"><p class="muted">E-mail : <span id="pEmail"></span></p><p class="muted">Rôle : <strong id="pRole"></strong></p><button onclick="saveProfile()">Enregistrer mon nom</button></div></section>
 </main></div></div>
 <script>
-const URL="https://xsobixwjejsaucwmhbwv.supabase.co";
+const SUPABASE_URL="https://xsobixwjejsaucwmhbwv.supabase.co";
 const KEY="sb_publishable_7Ch6KK0QcNucDG8Ihbsqdg_G7IRtl-g";
-const db=window.supabase.createClient(URL,KEY);
+const db=window.supabase.createClient(SUPABASE_URL,KEY);
 let user=null,profile=null,exts=[],buildings=[],checks=[],anomalies=[],maintenance=[],types=[],users=[],prefs=null,notes=[];
 let editingId=null;
 const $=id=>document.getElementById(id);
