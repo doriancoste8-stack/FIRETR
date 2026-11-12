@@ -206,6 +206,42 @@ body[data-theme="dark"] .page .stat span{color:#bdcbd8}
   -webkit-backdrop-filter:none!important;
 }
 
+
+/* FIRETRACK — finition responsive : alignements, espacements et zones tactiles
+   Aucun changement de couleurs, typographies, identité ou structure. */
+.page,
+.page .card,
+.page .item,
+.page .row,
+.page .grid,
+.page .actions{min-width:0}
+.page .card *,
+.page .item *{overflow-wrap:anywhere}
+.page button{min-height:44px}
+.page input:not([type=checkbox]),
+.page select{min-height:44px}
+.page .actions{display:flex;flex-wrap:wrap;align-items:stretch;gap:9px}
+.page .actions button{flex:1 1 190px;min-width:0;white-space:normal;line-height:1.3}
+.page .row{flex-wrap:wrap}
+@media(max-width:800px){
+  .page .row{align-items:stretch;row-gap:10px}
+  .page .row>input:not([type=checkbox]),
+  .page .row>select{flex:1 1 180px;width:auto;min-width:0}
+  .page .row>button{flex:1 1 135px;min-width:0;white-space:normal;line-height:1.3}
+  .page .actions{gap:9px}
+  .page .actions button{flex:1 1 165px;min-width:0;padding-left:11px;padding-right:11px}
+  .page .grid>*{min-width:0}
+  .page .card .row h3{min-width:0;overflow-wrap:anywhere}
+  .page .settingsAdd{flex-wrap:wrap}
+  .page .settingsAdd input{flex:1 1 170px;min-width:0}
+  .page .settingsAdd button{min-height:44px}
+}
+@media(max-width:380px){
+  .page .pageTitle{font-size:19px;gap:8px}
+  .page .card{padding:13px}
+  .page .row>button,
+  .page .actions button{flex-basis:100%}
+}
 </style>
 </head><body>
 <section id="login" class="loginScreen">
