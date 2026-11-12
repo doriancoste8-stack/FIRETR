@@ -552,7 +552,9 @@ if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.ser
   let lastTouchEnd = 0;
   document.addEventListener('touchend', function(event){
     const now = Date.now();
-    if(now - lastTouchEnd <= 300 && event.cancelable) event.preventDefault();
+    const target=event.target;
+    const interactive=target instanceof Element && target.closest('button,a,input,select,textarea,label,[role="button"],form');
+    if(now - lastTouchEnd <= 300 && !interactive && event.cancelable) event.preventDefault();
     lastTouchEnd = now;
   }, {passive:false});
 })();
