@@ -236,4 +236,60 @@ if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.ser
  .loginPanelInner{border-top:4px solid #176b52}
  .mobileBrand{color:#102b43}
 }
+
+/* Cohérence des pages : titres, panneaux, formulaires et listes */
+.page{min-width:0;animation:ftPageIn .18s ease-out}
+@keyframes ftPageIn{from{opacity:.82;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.page .pageTitle{display:flex;align-items:center;gap:10px;margin:3px 0 20px;padding:0 0 13px;border-bottom:1px solid #dfe7ee;color:#142c45;font-size:23px;font-weight:780;letter-spacing:-.45px;line-height:1.25}
+.page .card{border:1px solid #e4eaf0;border-radius:14px;padding:19px;margin:14px 0;box-shadow:0 4px 16px #152c4308}
+.page .card h3{font-size:16px;font-weight:750;letter-spacing:-.15px;color:#1c354e;margin:0 0 14px;line-height:1.35}
+.page .card>strong{font-size:15px;color:#1c354e}
+.page .muted{line-height:1.5}
+.page .item{border:1px solid #e2e9ef;border-radius:11px;padding:14px 15px;margin:9px 0;box-shadow:0 1px 4px #152c4305}
+.page .item strong{font-size:14px;line-height:1.4;color:#1d354d}
+.page .tag{vertical-align:middle;letter-spacing:.1px}
+.page label{font-size:12px;font-weight:750;letter-spacing:.1px;color:#43566b;margin:9px 0 5px}
+.page input:not([type=checkbox]),.page select,.page textarea{border:1px solid #d4dee8;border-radius:9px;background:#fbfcfe;padding:11px 12px;margin:5px 0 12px;min-height:43px;box-shadow:inset 0 1px 2px #172b4505;transition:border-color .15s,box-shadow .15s}
+.page input:focus,.page select:focus,.page textarea:focus{outline:none;border-color:#369477;box-shadow:0 0 0 3px #36947718}
+.page textarea{min-height:96px;line-height:1.5}
+.page .notice{border:1px solid #dce7ef;border-left:3px solid #3b8c76;background:#f3f7fa;border-radius:9px;line-height:1.5}
+.page .empty{border:1px dashed #d8e2eb;border-radius:10px;background:#f9fbfd;font-size:13px}
+.page .checkline{gap:12px;padding:12px 3px;border-bottom:1px solid #edf1f5}
+.page .checkline input{accent-color:#176b52;flex:0 0 19px}
+.page .checkline label{font-size:13px;font-weight:600;color:#40546a;line-height:1.4}
+.page button{transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+.page button:active{transform:translateY(1px);filter:brightness(.96)}
+.page button:focus-visible{outline:3px solid #3c9b7b55;outline-offset:2px}
+.page .actions{padding-top:2px}
+.page .actions button{min-height:38px}
+.page .grid{gap:13px}
+.page .stat{border:1px solid #e1e9ef;background:linear-gradient(145deg,#f4f8fb,#eaf1f6);border-radius:12px;padding:15px}
+.page .stat b{font-size:27px;color:#173650;letter-spacing:-.5px}
+.page .stat span{font-size:12px;line-height:1.35;color:#64778b}
+.page .row{align-items:center;gap:10px}
+.page .row h3{margin-bottom:0}
+body[data-theme="dark"] .page .pageTitle{color:#edf4fa;border-color:#34475b}
+body[data-theme="dark"] .page .card{border-color:#34475b;box-shadow:none}
+body[data-theme="dark"] .page .card h3,body[data-theme="dark"] .page .card>strong,body[data-theme="dark"] .page .item strong{color:#e5edf5}
+body[data-theme="dark"] .page .item{border-color:#34475b;box-shadow:none}
+body[data-theme="dark"] .page input:not([type=checkbox]),body[data-theme="dark"] .page select,body[data-theme="dark"] .page textarea{background:#142231;border-color:#40546a;color:#e6edf5}
+body[data-theme="dark"] .page label,body[data-theme="dark"] .page .checkline label{color:#c4d1de}
+body[data-theme="dark"] .page .notice{background:#223548;border-color:#3b5267;color:#dce8f3}
+body[data-theme="dark"] .page .empty{background:#182737;border-color:#40546a;color:#b9c7d5}
+body[data-theme="dark"] .page .stat{background:linear-gradient(145deg,#24384b,#1c2d3e);border-color:#3a5065}
+body[data-theme="dark"] .page .stat b{color:#f0f5fa}
+body[data-theme="dark"] .page .stat span{color:#bdcbd8}
+@media(max-width:800px){
+ .page .pageTitle{font-size:20px;margin-bottom:15px;padding-bottom:11px}
+ .page .card{padding:15px;margin:11px 0;border-radius:12px}
+ .page .item{padding:12px;margin:8px 0}
+ .page .grid{gap:9px}
+ .page .stat{padding:12px}
+ .page .stat b{font-size:24px}
+ .page .row{gap:8px}
+ .page .row>button{min-height:39px}
+ .page .actions{gap:7px}
+ .page .actions button{flex:1 1 auto;min-width:105px}
+}
+@media(prefers-reduced-motion:reduce){.page{animation:none}.page button{transition:none}}
 </style>
